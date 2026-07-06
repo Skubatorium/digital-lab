@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christian Skubatz - Agentic Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#FBF8F2; --bg-alt:#F1ECE0; --panel:#FFFFFF;
+    --ink:#211E19; --ink-soft:#4A453D; --muted:#7C7567; --faint:#A79F8E;
+    --line:rgba(33,30,25,.13); --line-soft:rgba(33,30,25,.07);
+    --accent:#B06A43; --accent-soft:#F2E4D6;
+    --serif:'Source Serif 4',ui-serif,'New York',Georgia,'Times New Roman',serif;
+    --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;
+    line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px}
+  ::selection{background:#e7d4be}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,border-color .35s;
+    border-bottom:1px solid transparent}
+  nav.solid{background:rgba(251,248,242,.88);backdrop-filter:saturate(160%) blur(12px);
+    border-bottom:1px solid var(--line-soft)}
+  nav .inner{max-width:var(--maxw);margin:0 auto;padding:17px 40px;display:flex;align-items:center;
+    justify-content:space-between}
+  .wordmark{font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:.01em;cursor:pointer}
+  .navlinks{display:flex;align-items:center;gap:32px}
+  .navlinks a{font-size:15px;color:var(--ink-soft);cursor:pointer;position:relative;transition:color .2s}
+  .navlinks a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1.5px;
+    background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .navlinks a:hover{color:var(--ink)}.navlinks a:hover::after{transform:scaleX(1)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:150px 0 70px}
+  .herogrid{display:grid;grid-template-columns:.82fr 1.18fr;gap:50px;align-items:start}
+  .hero .herotext{max-width:420px}
+  .eyebrow{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
+    font-weight:500;margin-bottom:24px}
+  .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.2vw,54px);line-height:1.08;
+    letter-spacing:-.02em}
+  .hero h1 em{font-style:italic;color:var(--accent)}
+  .hero .lead{margin-top:22px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
+  /* hero stage / slideshow - rechte Spalte, ~50% Breite, proportional (object-fit:cover, kein Verzerren) */
+  .stagewrap{position:relative}
+  .stage{position:relative;height:400px;border-radius:12px 12px 0 0;overflow:hidden;cursor:pointer;
+    border:1px solid var(--line-soft);border-bottom:none;background:#0b0b0a}
+  .stage .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}
+  .stage .slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .stage .slide.on{opacity:1}
+  /* beiger Streifen zwischen Bild und Bildunterschrift, mit klickbaren Punkten (unabhängig vom Bild-Klick) */
+  .stagebar{display:flex;align-items:center;justify-content:center;gap:9px;padding:13px 0;
+    background:var(--bg-alt);border:1px solid var(--line-soft);border-radius:0 0 12px 12px}
+  .stagebar b{width:7px;height:7px;border-radius:50%;background:var(--faint);cursor:pointer;transition:all .3s}
+  .stagebar b.on{background:var(--accent);width:20px;border-radius:99px}
+  /* Caption mittig unter der Grafik - cycelt mit, feste Mindesthöhe gegen Seiten-Hüpfen, max. 2 Zeilen */
+  .herocap{margin-top:18px;text-align:center;min-height:76px}
+  .herocap .pname{font-family:var(--serif);font-size:17px;font-weight:500;color:var(--ink);margin-bottom:6px}
+  .herocap .ptext{font-size:14.5px;color:var(--muted);line-height:1.55;margin:0 auto;max-width:42ch;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  @media(max-width:860px){.herogrid{grid-template-columns:1fr}.stage{height:280px}}
+
+  .section{padding:74px 0}
+  .section.alt{background:var(--bg-alt)}
+  .seclabel{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);
+    font-weight:500;margin-bottom:14px}
+  .secintro{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.6vw,32px);line-height:1.2;
+    letter-spacing:-.01em;white-space:normal;margin-bottom:18px}
+  .secsub{color:var(--ink-soft);font-size:17px;max-width:60ch;margin-bottom:30px}
+
+  /* ---------- PROJECT ROWS ---------- */
+  .prow{display:grid;grid-template-columns:70px 1fr 300px;gap:30px;align-items:center;
+    padding:34px 22px;border-top:1px solid var(--line);cursor:pointer;position:relative;
+    border-radius:10px;transition:background .3s}
+  .prow:first-of-type{border-top:none}
+  .prow::before{content:"";position:absolute;left:6px;top:50%;width:3px;height:0;border-radius:2px;
+    background:var(--pac);transform:translateY(-50%);transition:height .35s ease}
+  .prow:hover{background:var(--pac-tint)}
+  .prow.flash{background:var(--pac-tint)}
+  .prow:hover::before{height:62%}
+  .prow .idx{font-family:var(--serif);font-size:32px;font-weight:400;color:var(--faint);
+    transition:color .3s;font-feature-settings:"tnum"}
+  .prow:hover .idx{color:var(--pac)}
+  .prow .meta-top{font-size:12.5px;letter-spacing:.05em;color:var(--muted);margin-bottom:8px;
+    text-transform:uppercase}
+  .prow h3{font-family:var(--serif);font-weight:500;font-size:31px;line-height:1.1;
+    letter-spacing:-.01em;transition:color .3s}
+  .prow:hover h3{color:var(--pac)}
+  .prow .ptag{margin-top:10px;color:var(--ink-soft);font-size:16px;max-width:50ch}
+  .prow .chips{margin-top:15px;display:flex;flex-wrap:wrap;gap:8px}
+  .prow .chips span{font-size:12.5px;color:var(--muted);border:1px solid var(--line);
+    padding:4px 11px;border-radius:99px}
+  .prow .thumb{height:180px;border-radius:8px;overflow:hidden;position:relative;
+    background:var(--pac-grad);border:1px solid var(--line-soft)}
+  .prow .thumb img{width:100%;height:100%;object-fit:cover;object-position:center top;position:absolute;inset:0}
+  .prow .thumb .mono{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:70px;color:#fff;opacity:.92}
+  .prow .thumb .arrow{position:absolute;right:12px;bottom:12px;font-size:12.5px;color:#fff;
+    background:rgba(15,13,10,.5);padding:6px 13px;border-radius:99px;z-index:2;
+    opacity:0;transition:opacity .3s;font-weight:500;letter-spacing:.02em}
+  .prow:hover .thumb .arrow{opacity:1}
+  @media(max-width:820px){.prow{grid-template-columns:48px 1fr;gap:18px;padding:28px 16px}
+    .prow .thumb{display:none}.prow h3{font-size:25px}}
+
+  /* ---------- HINTERGRUND ---------- */
+  .about-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:54px;align-items:start}
+  .about-grid h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3.2vw,38px);
+    line-height:1.2;letter-spacing:-.01em}
+  .about-grid h2 em{font-style:italic;color:var(--accent)}
+  .about-grid .body p{color:var(--ink-soft);font-size:17px;margin-bottom:15px}
+  .about-grid .body p:last-child{margin-bottom:0}
+  @media(max-width:780px){.about-grid{grid-template-columns:1fr;gap:22px}}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px}
+  .foot{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px}
+  .foot .fm{font-family:var(--serif);font-size:24px;font-weight:500}
+  .foot .fs{font-size:13.5px;color:var(--muted);margin-top:6px}
+  .foot .fr{font-size:13.5px;color:var(--muted);text-align:right}
+  .foot .fr a{color:var(--accent);border-bottom:1px solid var(--accent-soft);padding-bottom:1px}
+
+  /* ---------- DETAIL ---------- */
+  .detail{display:none}
+  .dhero{padding:140px 0 58px;background:var(--pac-grad-soft);border-bottom:1px solid var(--line)}
+  .dback{font-size:14.5px;color:var(--ink-soft);cursor:pointer;display:inline-flex;align-items:center;
+    gap:8px;margin-bottom:30px;transition:gap .25s,color .2s}
+  .dback:hover{gap:13px;color:var(--ink)}
+  .dfoot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .dfoot .dback{margin-bottom:0}
+  .dquick{display:flex;gap:22px}
+  .dquick span{cursor:pointer;color:var(--ink-soft);font-size:14.5px;transition:color .2s}
+  .dquick span:hover{color:var(--pac)}
+  .dhero .dtype{font-size:12.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--pac-deep);
+    font-weight:500;margin-bottom:16px}
+  .dhero h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,6vw,70px);line-height:1.03;
+    letter-spacing:-.02em}
+  .dhero .dtag{margin-top:20px;font-size:19.5px;color:var(--ink-soft);max-width:64ch;line-height:1.55}
+  .metrics{display:flex;flex-wrap:wrap;gap:40px;margin-top:38px;border-top:1px solid var(--line);
+    padding-top:28px}
+  .metric .v{font-family:var(--serif);font-size:29px;font-weight:500;line-height:1}
+  .metric .l{font-size:12.5px;color:var(--muted);margin-top:7px}
+
+  /* ---------- DETAIL HERO IMAGE (statisches Beispielbild, kein Slider) ---------- */
+  .heroshots{margin-top:40px;border-radius:12px;overflow:hidden;height:460px;
+    border:1px solid var(--line);background:#0b0b0a}
+  .heroshots img{width:100%;height:100%;object-fit:cover;display:block}
+  @media(max-width:820px){.heroshots{height:260px}}
+
+  .tabs{position:sticky;top:0;z-index:20;background:rgba(251,248,242,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line)}
+  .tabs .inner{max-width:var(--maxw);margin:0 auto;padding:0 40px;display:flex;gap:36px}
+  .tab{padding:19px 0 16px;font-size:16px;color:var(--muted);cursor:pointer;font-weight:500;
+    border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s}
+  .tab:hover{color:var(--ink)}.tab.on{color:var(--ink);border-bottom-color:var(--pac)}
+
+  .panel{display:none;padding:56px 0 20px;animation:fade .4s ease}.panel.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .col{max-width:770px}
+  .panel h4{font-family:var(--serif);font-size:13px;color:var(--pac-deep);font-weight:600;
+    margin:40px 0 13px;text-transform:uppercase;letter-spacing:.13em}
+  .panel h4:first-child{margin-top:0}
+  .panel p{color:var(--ink-soft);font-size:17.5px;line-height:1.75;margin-bottom:15px}
+  .panel p b,.panel li b{color:var(--ink);font-weight:500}.panel i{font-style:italic}
+  .panel ul{list-style:none}
+  .panel li{position:relative;padding-left:25px;margin-bottom:12px;color:var(--ink-soft);font-size:17.5px}
+  .panel li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;
+    border-radius:50%;background:var(--pac)}
+  .special{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--pac);
+    border-radius:8px;padding:22px 25px;margin:8px 0 20px}
+  .special .st{font-family:var(--serif);font-weight:500;font-size:18.5px;margin-bottom:8px}
+  .special p{margin:0;font-size:16.5px;color:var(--ink-soft)}
+  .sub{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;
+    margin:22px 0 11px}
+  .flow{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:6px}
+  .flow .step{background:var(--pac-tint);border:1px solid var(--line-soft);border-radius:8px;
+    padding:8px 13px;font-size:14px;color:var(--ink)}
+  .flow .step b{color:var(--pac-deep);font-weight:600;margin-right:6px}
+  .flow .arr{color:var(--pac);font-size:15px}
+  .agents{display:flex;flex-wrap:wrap;gap:8px}
+  .agents .ag{font-size:13.5px;color:var(--ink-soft);background:var(--bg-alt);
+    border:1px solid var(--line-soft);padding:6px 13px;border-radius:99px}
+  .ais{display:flex;flex-direction:column;gap:9px}
+  .ais .ai{font-size:16px;color:var(--ink-soft)}.ais .ai b{color:var(--ink);font-weight:500}
+  .techgrid{display:flex;flex-wrap:wrap;gap:9px}
+  .techgrid span{font-size:14px;color:var(--ink-soft);background:var(--bg-alt);
+    border:1px solid var(--line-soft);padding:7px 14px;border-radius:99px}
+  .trow{border-top:1px solid var(--line)}
+  .trow .ti2{display:grid;grid-template-columns:165px 1fr;gap:22px;padding:16px 0;
+    border-bottom:1px solid var(--line-soft)}
+  .trow .ti2 .k{font-weight:500;color:var(--ink);font-size:16px}
+  .trow .ti2 .v{color:var(--ink-soft);font-size:16px}
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  .shotcard{background:var(--ink);border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    cursor:zoom-in;transition:box-shadow .25s ease,transform .25s ease}
+  .shotcard:hover{box-shadow:0 10px 26px rgba(33,30,25,.13);transform:translateY(-2px)}
+  .shotcard .simg{position:relative;height:215px;overflow:hidden;background:var(--bg-alt);
+    border-bottom:1px solid var(--line)}
+  .shotcard .simg img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .shotcard .simg::after{content:"";position:absolute;left:0;right:0;bottom:0;height:44px;pointer-events:none;
+    background:linear-gradient(0deg,rgba(20,18,14,.28),rgba(20,18,14,0))}
+  .shotcard .imgph{height:215px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;background:var(--pac-grad)}
+  .shotcard .imgph .lg{font-family:var(--serif);font-size:44px;color:#fff;opacity:.92}
+  .shotcard .imgph small{font-size:11.5px;color:rgba(255,255,255,.85)}
+  .shotcard .cap{padding:14px 16px;font-size:14.5px;color:rgba(255,255,255,.92);background:var(--ink)}
+  .imnote{margin-top:32px;font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+  .imnote code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg-alt);padding:2px 7px;border-radius:5px}
+
+  /* ---------- LIGHTBOX (Zoom + Pan) ---------- */
+  .lightbox{position:fixed;inset:0;z-index:200;background:rgba(10,9,7,.94);display:flex;
+    flex-direction:column;align-items:center;justify-content:center;opacity:0;visibility:hidden;
+    transition:opacity .25s ease;padding:30px;gap:14px}
+  .lightbox.on{opacity:1;visibility:visible}
+  .lb-viewport{width:min(90vw,1080px);height:min(70vh,700px);overflow:hidden;border-radius:8px;
+    position:relative;background:#0c0b09;cursor:grab;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .lb-viewport.zoomed{cursor:grab}
+  .lb-viewport.dragging{cursor:grabbing}
+  .lb-viewport img{position:absolute;top:50%;left:50%;max-width:none;max-height:none;
+    width:auto;height:100%;transform-origin:center center;user-select:none;-webkit-user-drag:none;
+    pointer-events:none}
+  .lb-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+  .lb-toolbar button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.24);
+    color:#fff;font-size:14.5px;padding:8px 18px;border-radius:99px;cursor:pointer;
+    font-family:var(--sans);transition:background .2s}
+  .lb-toolbar button:hover{background:rgba(255,255,255,.22)}
+  .lightbox .lb-cap{color:rgba(255,255,255,.82);font-size:14.5px;text-align:center;max-width:70ch}
+  .lightbox .lb-close{position:absolute;top:20px;right:26px;background:none;border:none;color:#fff;
+    font-size:28px;line-height:1;cursor:pointer;opacity:.75;transition:opacity .2s}
+  .lightbox .lb-close:hover{opacity:1}
+  .lightbox .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);color:#fff;font-size:26px;width:48px;height:48px;
+    border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:background .2s;line-height:1;z-index:5}
+  .lightbox .lb-nav:hover{background:rgba(255,255,255,.18)}
+  .lightbox .lb-prev{left:22px}.lightbox .lb-next{right:22px}
+  @media(max-width:700px){.lightbox{padding:70px 10px 20px}.lb-viewport{width:94vw}
+    .lightbox .lb-nav{width:40px;height:40px;font-size:20px}
+    .lightbox .lb-prev{left:4px}.lightbox .lb-next{right:4px}}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav id="nav"><div class="inner">
+  <div class="wordmark" onclick="goHome()">Christian Skubatz</div>
+  <div class="navlinks">
+    <a onclick="goTo('projects')">Projekte</a>
+    <a onclick="goTo('footer')">Kontakt</a>
+  </div>
+</div></nav>
+
+<main id="overview">
+  <header class="hero"><div class="wrap"><div class="herogrid">
+    <div class="reveal herotext">
+      <div class="eyebrow">Agentic Projects</div>
+      <h1>Ideen einfach <em>selbst</em> umsetzen.</h1>
+      <p class="lead">Private Projekte aus meiner Freizeit, mal um ein Problem zu lösen, mal um
+        ein Produkt zu bauen - einen Mail-Assistenten, ein Spiel, eine Firmen-Website. Was sie
+        verbindet: mein Interesse an Nutzung, Anwendung und Grenzen agentischer KI.</p>
+    </div>
+    <div>
+      <div class="stagewrap">
+        <div class="stage" id="stage" onclick="clickStage()"></div>
+        <div class="stagebar" id="stagebar"></div>
+      </div>
+      <div class="herocap" id="herofacts"></div>
+    </div>
+  </div></div></header>
+
+  <section class="section alt" id="projects"><div class="wrap">
+    <div class="reveal">
+      <div class="seclabel">Die Projekte</div>
+      <div class="secintro">Vom Dokumenten-Manager bis zum Browserspiel.</div>
+      <p class="secsub">Sechs Projekte in chronologischer Reihenfolge - jedes mit fachlichem
+        Hintergrund, technischen Hard-Facts und Screenshots. Ein Klick öffnet die Detailseite.</p>
+    </div>
+    <div id="projects-list"></div>
+  </div></section>
+
+  <section class="section" id="about"><div class="wrap about-grid reveal">
+    <h2>Eine vielfältige Laufbahn, die in der <em>agentischen Produktlösung</em> aufgeht.</h2>
+    <div class="body">
+      <p>Mein Weg begann als Mediengestalter, später als Instructional Designer - immer begleitet
+         von Testing und Programmierung, also Testautomatisierung. Mit 18 hatte ich für drei Jahre
+         ein kleines eigenes Softwareunternehmen - wirklich nur erste Schritte, die viel Wissen und
+         wenig Geld gebracht haben. Danach folgten mehrere weitere Stationen rund um Software,
+         Qualität und Produkt.</p>
+      <p>Aus dieser Kombination an Erfahrungen ist ein gutes Auge für Problemlösungen,
+         Produktentwicklung, Technik, Qualität, Usability und Gestaltung zusammengewachsen.
+         Agentisches Coding gibt mir jetzt die Möglichkeit, eigene Ideen und Produkte umzusetzen -
+         als Proof of Concept oder als wirklich im Alltag eingesetztes Produkt.</p>
+      <p>Der Reiz liegt im Bauen, Ausprobieren, Feilen und Lernen an echten Problemlösungen.</p>
+    </div>
+  </div></section>
+
+  <footer id="footer"><div class="wrap foot">
+    <div>
+      <div class="fm">Christian Skubatz</div>
+      <div class="fs">Agentic Projects - eine Auswahl privater Projekte.</div>
+    </div>
+    <div class="fr">
+      <div id="fcount"></div>
+      <div style="margin-top:4px"><a href="mailto:christian.skubatz@gmail.com">christian.skubatz@gmail.com</a></div>
+    </div>
+  </div></footer>
+</main>
+
+<article class="detail" id="detail">
+  <div class="dhero"><div class="wrap">
+    <div class="dback" onclick="goHome()">← Alle Projekte</div>
+    <div class="dtype" id="d-type"></div>
+    <h2 id="d-name"></h2>
+    <p class="dtag" id="d-tag"></p>
+    <div class="metrics" id="d-metrics"></div>
+    <div class="heroshots" id="d-heroshots"></div>
+  </div></div>
+  <div class="tabs"><div class="inner" id="d-tabs"></div></div>
+  <div class="wrap" id="d-panels"></div>
+  <div class="section"><div class="wrap"><div class="dfoot">
+    <div class="dback" onclick="goHome()">← Alle Projekte</div>
+    <div class="dquick"><span onclick="jumpTab(1)">Technik →</span><span onclick="jumpTab(2)">Screenshots →</span></div>
+  </div></div></div>
+</article>
+
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()" aria-label="Schließen">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)" aria-label="Vorheriges Bild">‹</button>
+  <div class="lb-viewport" id="lb-viewport"><img id="lb-img" src="" alt="" draggable="false"></div>
+  <button class="lb-nav lb-next" onclick="lbNav(1)" aria-label="Nächstes Bild">›</button>
+  <div class="lb-toolbar">
+    <button onclick="lbZoom(-0.5)">− Verkleinern</button>
+    <button onclick="lbReset()">Original</button>
+    <button onclick="lbZoom(0.5)">+ Vergrößern</button>
+  </div>
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+
+<script>
+const PROJECTS=[
+{
+  slug:"oozcod", name:"OOZCOD - Document Zoo", typeLabel:"Web-App · KI-Pipeline", mono:"O",
+  status:"Aktiv", accent:"#2E8C7E", monthShort:"Apr-Jun 2026", timeframe:"April - Juni 2026",
+  tagline:"Privates Dokumenten-Management: Unterlagen werden automatisch mit OCR und KI gelesen, zusammengefasst und einsortiert - schnell auffindbar, per Chatbot befragbar und bei Bedarf zu einem Steuerpaket zusammengestellt.",
+  heroline:"Dokumente automatisch lesen, einsortieren, wiederfinden.",
+  metrics:[{v:"15",l:"Dokumenten-Kategorien"},{v:"DE / EN",l:"zweisprachig"},{v:"OCR + KI",l:"liest, sortiert & interpretiert"},{v:"1 Klick",l:"Steuerpaket für den Steuerberater"}],
+  tech:["Next.js + TypeScript","Prisma + PostgreSQL","Python FastAPI Worker","Tesseract OCR","Claude / Anthropic SDK","next-intl (DE/EN)","Recharts","@react-pdf/renderer"],
+  fachlich:{
+    idea:"OOZCOD („Document Zoo\") ist ein privates, lokal laufendes Dokumenten-Management für digitalisierte Familienunterlagen. Dokumente werden automatisch per OCR und Claude gelesen, kategorisiert und über einen kontrollierten Freigabe-Prozess abgelegt. Die Steuervorbereitung ist dabei nur ein Nebenprodukt - es geht in erster Linie um ein digitales Ablagesystem, in dem sich Dokumente schnell wiederfinden, per Chatbot befragen und bei Bedarf steuerlich aufbereiten lassen. Ein eingebauter Chatbot („Oozy\") beantwortet Fragen zu allen Dokumenten, und ein Konto-Checker wertet Jahres-Kontoauszüge aus. Mit dieser kompletten Datenbasis lässt sich so ziemlich jede Frage zu den eigenen Unterlagen beantworten.",
+    does:"Ein Dokument - ob eingescannt oder als PDF heruntergeladen - landet im Eingang. Der Worker erkennt Duplikate, liest den Text per OCR aus und lässt Claude Dokumenttyp, Datum, beteiligte Personen, Institution und eine Zusammenfassung extrahieren. Danach schlägt das System eine Kategorie vor - die ich im Freigabe-Schritt prüfe, korrigiere und bestätige. Volltextsuche sowie eine Filterung nach Kategorie, Person, Fahrzeug oder Jahr machen das Archiv durchsuchbar.",
+    features:["Automatische <b>OCR- & KI-Analyse</b> - extrahiert wichtige Kerndaten (Personen, Institutionen, Zusammenfassung)","Kontrollierter <b>Freigabe- & Zuweisungs-Prozess</b> - jedes Dokument einzeln geprüft","<b>Automatischer Steuer-Export</b>: Rechnungen, Versicherungsbeiträge und andere steuerrelevante Belege werden Kategorien zugeordnet, am Jahresende ein fertiges Steuerpaket (ZIP + PDF)","<b>Konto-Checker</b>: Jahres-Kontoauszüge einlesen und auswerten","<b>„Oozy\"-Chatbot</b> beantwortet Fragen zu allen Dokumenten und Kontoauszügen","Duplikat-Erkennung, Volltextsuche, zweisprachige Oberfläche (DE/EN)"],
+    special:{t:"Kosten & Datenschutz bei der KI-Analyse",b:"Jede OCR-/KI-Analyse läuft über einen API-Call an Claude - das kostet echtes Geld, ungefähr 1-2 Cent pro Dokumentseite. Deshalb überlege ich bewusst, welche Dokumente ich überhaupt scanne. Grundsätzlich ließe sich auch ein eigenes, lokal betriebenes LLM anbinden, um die Daten komplett im Haus zu behalten. Aktuell nutze ich stattdessen eine Cloud-API, deren Anbieter die Daten nicht zu Trainingszwecken verwendet - vom Risiko her vergleichbar mit einem Gmail-Konto oder Google Drive."},
+    flow:"Kein Multi-Agenten-Team, sondern eine durchgehende Verarbeitungs-Pipeline: ein Next.js-Frontend plus ein Python-Worker, der jeden Beleg Schritt für Schritt verarbeitet und den Fortschritt live ans UI meldet.",
+    flowSteps:["PDF im Eingang","Duplikat-Check","OCR (Tesseract)","KI-Analyse (Claude)","Kategorie-Vorschlag","Speichern","Deine Freigabe"],
+    agents:[], ais:[{n:"Claude",r:"Analyse & Extraktion pro Dokument"}]
+  },
+  technisch:[
+    {k:"Architektur",v:"Monorepo aus Web-App (Next.js) und einem Python-Worker (FastAPI); PostgreSQL für Daten und Volltextsuche"},
+    {k:"Frontend",v:"Next.js + TypeScript, next-intl (DE/EN), Recharts für Budget-/Statistik-Charts, react-pdf, NextAuth, Prisma"},
+    {k:"Worker",v:"FastAPI, pytesseract (Tesseract, deu+eng), pdf2image/Pillow, Anthropic SDK, SQLAlchemy, Ordner-Überwachung"},
+    {k:"Datenpipeline",v:"SHA-256-Duplikaterkennung, asynchrone Verarbeitung, Live-Statusmeldungen ans UI"},
+    {k:"Qualität",v:"27 automatisierte Tests des Verarbeitungs-Workers (pytest)"},
+    {k:"Betrieb",v:"Läuft lokal via Docker. Der KI-Analyse-Schritt ist der einzige externe Aufruf und ließe sich auf ein lokal betriebenes Modell umstellen."}
+  ],
+  impressionen:[{file:"dashboard.png",cap:"Dashboard - Kategorien-Übersicht"},{file:"freigabe-detail.png",cap:"Freigabe-Prozess - Dokument prüfen und Metadaten zuweisen"},{file:"ocr-extraktion.png",cap:"Automatische OCR-Extraktion mit Ablage-Vorschlag"},{file:"browser.png",cap:"Dokument-Browser mit Filterung nach Kategorie/Jahr"},{file:"steuermappe.png",cap:"Steuerakte - Übersicht nach Steuerjahr"},{file:"steuerjahr-detail.png",cap:"Steuerjahr-Detail - Belege je Person oder Immobilie"},{file:"kontochecker-uebersicht.png",cap:"Konto-Checker - Jahres-Kontoauszüge und Transaktionen im Überblick (Zahlen unkenntlich gemacht)"},{file:"kontochecker-transaktionen.png",cap:"Konto-Checker - Transaktionsliste inklusive Kategorisierung (Zahlen unkenntlich gemacht)"},{file:"oozy.png",cap:"Oozy-Chatbot: Auskunft über die gesamte Dokumentenbasis"}]
+},
+{
+  slug:"drachenspur", name:"Drachenspur", typeLabel:"Browserspiel", mono:"D",
+  status:"Aktiv", accent:"#6E57B0", monthShort:"Apr-Jun 2026", timeframe:"April - Juni 2026",
+  tagline:"Ein browserbasierter Dungeon-Crawler mit würfelbasierten Kämpfen und Helden aus der eigenen Familie, für 1-3 Spieler - basierend auf dem Brettspiel Karak, gebaut für meinen Sohn zu seinem sechsten Geburtstag.",
+  heroline:"Ein Dungeon-Crawler-Abenteuer für meinen Sohn.",
+  metrics:[{v:"1-3",l:"Spieler"},{v:"3D",l:"Würfel-Physik im Kampf"},{v:"Inkl.",l:"Savegames & Statistiken"}],
+  tech:["PixiJS v8 (2D)","three.js + cannon-es (3D-Würfel)","TypeScript (strict)","Vite 8","Howler.js (Audio)","Zod","Vitest + Playwright","Supabase + Vercel"],
+  fachlich:{
+    idea:"Drachenspur ist die digitale Version unseres Lieblings-Brettspiels Karak. Mein Sohn, ich und meine Frau spielen Karak oft zusammen - ich wollte eine eigene Welt schaffen, in der wir als Familie die Helden sind, mit eigener Hintergrundgeschichte und eigenen Helden-Fähigkeiten. Spieler ziehen reihum Dungeon-Plättchen, erkunden gemeinsam, besiegen Monster im Würfelkampf und sammeln Schätze, bevor am Ende der Drache besiegt werden muss.",
+    does:"Ein vollständiges Spiel für 1-3 Spieler mit Charakterauswahl, Dungeon-Erkundung, 3D-Würfel-Kämpfen, persistenten Spielständen, Statistiken und einem umfangreichen Kompendium. Ein Logger zeichnet jeden Spielzug auf - das speist die Statistiken und sorgt dafür, dass die Partie jederzeit pausiert und fortgesetzt werden kann: automatisch gespeichert bei Start und nach jedem Zug.",
+    features:["Eigene <b>Helden & Welt</b> mit Charakterauswahl - die Spielmechanik basiert auf Karak","Physikalisch simulierte <b>3D-Würfel</b> im Kampf - jeder Wurf eine echte Physik-Simulation","<b>Kompendium</b> mit 6 Tabs: Helden, Monster, Waffen, Schätze, Regeln, Welt","Statistiken pro Held und Monster, Abschlussbildschirm mit Spielstatistiken","Speichern & Fortsetzen jederzeit möglich","<b>Themebar</b>: über den Asset-Manager lässt sich eine komplett neue Welt gestalten"],
+    special:{t:"Theming dank Asset-Manager",b:"Ein Theme besteht aktuell aus 136 Grafiken und 83 Audiodateien (Soundeffekte, Musik, Sprachausgabe) - alles austauschbar. Über ein Admin-Panel lässt sich ein komplett neues Theme anlegen: Auf Basis vordefinierter Prompts erzeugen andere KI-Tools die passenden Grafiken und Sounds, aus denen sich eine völlig neue Welt zusammenbauen lässt. Es gibt schon Ideen für ein Theme im Teenage-Mutant-Ninja-Turtles-Universum."},
+    flow:"Zuerst entstand ein Plan, dann lief die Umsetzung durch ein Team spezialisierter Agenten nach vorgegebenen Bedingungen - vom Regelwerk über Design und Assets bis zu Entwicklung, QA und Review.",
+    flowSteps:["Plan & Regelwerk","Anforderungen","Design & Grafik-Check","Asset-Prompts → Grafik","Entwicklung","QA & Autoplay-Bot","Code-Review"],
+    agents:["game-designer","requirements-engineer","designer","asset-coordinator","senior-dev","quality-engineer","code-reviewer"],
+    ais:[{n:"Claude Code",r:"Programmierung"},{n:"ChatGPT",r:"Grafiken aus Asset-Manager-Prompts"},{n:"ElevenLabs",r:"Soundeffekte & Hintergrundmusik"}]
+  },
+  technisch:[
+    {k:"Architektur",v:"UI-freie Engine (Spielzustand, Kampf, Aktionen, Inventar, Zufall) sauber von der Darstellung getrennt; Spielinhalte als JSON mit Schema-Prüfung (Zod)"},
+    {k:"Rendering",v:"PixiJS v8 für die 2D-Welt; three.js + cannon-es für die echte 3D-Würfel-Physik im Kampf"},
+    {k:"Autoplay-Bot",v:"Ein selbstspielender Bot lief dauerhaft durch den Dungeon, um automatisch Bugs zu finden (mit Stuck-Detection und Logging)"},
+    {k:"Sprache/Build",v:"TypeScript (strict), Vite 8"},
+    {k:"Persistenz",v:"Spielstände im Browser (localStorage, laufend + Archiv); hochgeladene Assets in IndexedDB; Supabase für Accounts"},
+    {k:"Qualität",v:"345 Unit-Tests (Vitest) + 43 E2E-Tests (Playwright), Code-Analyse, Content-Validierung"},
+    {k:"Deployment",v:"Vercel (Frankfurt), Supabase (EU) für Accounts, Resend (EU) für Mails - die erste komplette Deployment-Pipeline, die ich aufgebaut habe (wiederverwendet bei Maschinenverleih Skubatz)"}
+  ],
+  impressionen:[{file:"start.png",cap:"Startbildschirm mit Hauptmenü"},{file:"heldenportraet.png",cap:"Charakterauswahl - jeder Held hat zwei Spezialfähigkeiten"},{file:"abenteuer-beginnt.png",cap:"Das Abenteuer beginnt - hinab in den Dungeon"},{file:"game.png",cap:"Dungeon-Erkundung in der Draufsicht"},{file:"sieg.png",cap:"Würfelkampf gewonnen (inkl. Auswertung von Heldenfähigkeiten, Items, Beute)"},{file:"compendium-monster.png",cap:"Kompendium - Monster-Übersicht"},{file:"compendium-held.png",cap:"Kompendium - Heldenprofil"},{file:"statistics.png",cap:"Statistiken - Gesamt- und Heldenwerte"},{file:"admin-grafik.png",cap:"Asset-Manager - Grafiken (Admin-Panel)"}]
+},
+{
+  slug:"mailo", name:"MAILO", typeLabel:"KI-Assistent", mono:"M",
+  status:"Live", accent:"#C58A2C", monthShort:"Mai 2026", timeframe:"Mai 2026 → laufend",
+  tagline:"Ein persönlicher KI-Mail-Assistent: erst das komplette Postfach aufgeräumt und kategorisiert, seitdem jeden Morgen um 7:30 Uhr ein Briefing über neue Mails und Handlungsempfehlungen.",
+  metrics:[{v:"~16.000",l:"Mails verarbeitet"},{v:"56",l:"Labels"},{v:"seit 2009",l:"Kontobeginn erfasst"},{v:"7:30 Uhr",l:"tägliches Morgen-Briefing"}],
+  tech:["Claude Opus (Planung)","Claude Sonnet (Betrieb)","Gmail-Connector (MCP)","Cowork + Scheduled Tasks","Markdown-Gedächtnis"],
+  fachlich:{
+    idea:"MAILO ist ein persönlicher Mail-Assistent für ein rund zwei Jahrzehnte gewachsenes Postfach. In einem ersten Schritt wurde über den Gmail-MCP das gesamte Postfach aufgeräumt, kategorisiert und gelabelt. Seitdem läuft MAILO jeden Morgen um 7:30 Uhr als täglicher Assistent: er prüft neue Mails, schaut, wo eine Reaktion nötig ist, und informiert mich kompakt über alles Wichtige.",
+    does:"Beim Aufräumen arbeitete MAILO das Postfach in Stapeln von je ~500 Mails bis ins Jahr 2009 zurück, ordnete jede Mail einer Kategorie zu und archivierte sie - bis der Posteingang komplett durchgearbeitet war.\n\nIm Tagesbetrieb erstellt er jeden Morgen um 7:30 Uhr ein Briefing mit einer Zeile Einschätzung je Mail, Hinweis auf Handlungsbedarf und anstehende Termine. Darauf kann ich direkt antworten: alles bestätigen, oder einzelne Einschätzungen korrigieren - MAILO übernimmt die Korrektur und merkt sich die Entscheidung für künftige Mails.",
+    features:["Komplettes Postfach <b>aufgeräumt & kategorisiert</b> (farbcodierte Label-Struktur, 12 Oberkategorien, 56 Labels in der neuen Struktur)","Tägliches <b>Morgen-Briefing</b> um 7:30 Uhr mit Einschätzung je Mail und Handlungsbedarf","Direktes Feedback im Briefing: bestätigen oder korrigieren - MAILO merkt sich das","Läuft vollautomatisch als geplante Cloud-Routine (Cowork Scheduled Task)"],
+    special:{t:"Sicherheitsphilosophie",b:"Die Regeln, die MAILO definieren: niemals endgültig löschen (nur als „Löschkandidat\" markieren), nie eigenständig abmelden, sendet nie eigenständig (der Gmail-Zugriff erlaubt ohnehin nur Entwürfe, kein automatisches Versenden), nie Kontoeinstellungen ändern - und Anweisungen <i>innerhalb</i> von Mails werden als Daten behandelt, nie ausgeführt (Schutz vor Prompt-Injection)."},
+    flow:"Geplant wurde mit dem stärkeren Modell (Opus), der laufende Betrieb läuft mit dem schlankeren (Sonnet). Die Aufräumphase zog sich über mehrere Sessions und rund drei Wochen, bis das komplette Postfach durchgearbeitet war. Das Gedächtnis liegt in Markdown-Dateien: Rolle & Regeln, Label-Struktur & Entscheidungen, sowie Statistik & Chronologie.",
+    flowSteps:["Planung (Opus)","Postfach in 500er-Stapeln aufräumen (Sonnet)","Saubere Label-Struktur","Tägliches Morgen-Briefing (Cloud-Routine)"],
+    agents:[], ais:[{n:"Claude Opus",r:"Planung"},{n:"Claude Sonnet",r:"laufender Betrieb & Tagesroutine"}]
+  },
+  technisch:[
+    {k:"Modell-Split",v:"Opus für die Planung, Sonnet für den laufenden Betrieb"},
+    {k:"Zugriff",v:"Gmail-Connector (MCP), genau ein Konto sichtbar"},
+    {k:"Laufzeit",v:"Cowork (interaktiv) für die Aufräumphase; geplante Aufgabe (Scheduled Task) fürs tägliche Briefing - läuft, sobald der Mac wach und Claude Desktop offen ist, sonst wird der Lauf beim nächsten Aufwachen nachgeholt"},
+    {k:"Gedächtnis",v:"Datei-basiert (Rolle/Regeln, Label-Struktur, Statistik); zusätzlich nach Google Drive gespiegelt"},
+    {k:"Label-System",v:"56 Labels in der neuen Struktur (12 nummerierte Oberkategorien plus Löschkandidat) - sinnvoll strukturiert und farbcodiert. Daneben liegen noch rund 44 ältere Alt-Labels, die schrittweise konsolidiert werden"}
+  ],
+  impressionen:[{file:"tagesroutine.png",cap:"Tägliches Morgen-Briefing mit Einschätzung je Mail"},{file:"label-struktur.png",cap:"Farbcodierte Label-Struktur im Posteingang"},{file:"label-baum.png",cap:"Vollständige Label-Struktur"},{file:"meilensteine.png",cap:"Meilensteine - vom Postfach-Chaos zu Inbox Zero"},{file:"tageszusammenfassungen.png",cap:"Verlauf der Tageszusammenfassungen"}]
+},
+{
+  slug:"maschinenverleih-skubatz", name:"Maschinenverleih Skubatz", typeLabel:"Web-App", mono:"S",
+  status:"Aktiv", accent:"#C5532B", monthShort:"Jun 2026", timeframe:"Juni 2026 → laufend",
+  tagline:"Buchungs- und Verwaltungsplattform für das Nebengewerbe meiner Frau und mir, den Werkzeug- & Maschinenverleih Skubatz: Online-Kalender, digitale Übergabe/Rückgabe und ein KI-Rechercheassistent fürs Geräte-Anlegen.",
+  metrics:[{v:"Online",l:"Buchung & Kalender"},{v:"Digital",l:"Ausleihe & Rückgabe mit Foto/Unterschrift"},{v:"KI",l:"Recherche-Assistent fürs Geräte-Anlegen"}],
+  tech:["Next.js 15 (App Router)","React 19","TypeScript (strict)","Tailwind v4 + shadcn/ui","Supabase (EU-Frankfurt)","Vercel (Frankfurt)","Resend (EU)","Vitest + Playwright","pnpm Monorepo"],
+  fachlich:{
+    idea:"Eine vollwertige Website für das Nebengewerbe meiner Frau und mir, den Werkzeug- & Maschinenverleih. Sie besteht aus einem öffentlichen Katalog mit Verfügbarkeit und Buchung, einem Kundenbereich und einem Admin-Bereich, der den gesamten Geräte-Lebenszyklus abbildet. Alles ist mobil-optimiert - der digitale Ausleih- und Rückgabeprozess lässt sich z. B. am iPad direkt bei der Übergabe mitführen.",
+    does:"Kunden durchsuchen den Katalog, prüfen die Verfügbarkeit im Kalender, wählen einen Zeitraum und stellen eine Buchungsanfrage. Wir bestätigen oder lehnen Buchungen ab (oder schlagen Alternativen vor), dokumentieren Übergabe und Rückgabe (inklusive Foto und Unterschrift) direkt mobil am Gerät und verwalten den ganzen Bestand - inklusive Steuer-Export der relevanten Daten.",
+    features:["<b>Buchungssystem</b> mit Verfügbarkeits-Kalender und klarem Buchungsprozess","<b>Mobil-optimiert</b>: digitaler Ausleih- & Rückgabeprozess, am iPad bei der Übergabe mitführbar","Admin-Lebenszyklus: Geräte anlegen, freigeben, übergeben, zurücknehmen, warten","<b>KI-Recherche-Assistent</b> beim Geräte-Anlegen (siehe unten)","Vertrags-PDF mit digitaler Unterschrift, automatische Mails entlang des Buchungsablaufs","Kundenbereich mit Selbstverwaltung"],
+    special:{t:"KI-Recherche-Assistent beim Geräte-Anlegen",b:"Mit einem eigenen, sicher hinterlegten API-Key kann ich beim Anlegen eines neuen Geräts eine KI-Recherche auslösen (Claude Sonnet): aus Hersteller-Link und Produktname werden Name, Kategorie, Beschreibungen, Such-Tags und ein Preisvorschlag (orientiert an marktüblichen Mietpreisen) vorgeschlagen - den ich prüfe und bestätige, bevor irgendetwas gespeichert wird."},
+    flow:"Jedes Feature durchläuft eine feste 9-Schritt-Pipeline. Ein Orchestrator steuert die Übergänge, spezialisierte Agenten übernehmen je einen Schritt - inklusive eigener Reviewer für Datenschutz, Recht und Suchmaschinen-Auffindbarkeit.",
+    flowSteps:["Anforderungen","Spec-Review","Test zuerst (TDD)","Implementierung","Code-Review","Datenschutz & Recht","SEO","Final-QA","Commit"],
+    agents:["orchestrator","requirements-engineer","researcher","senior-fullstack-dev","code-reviewer","dsgvo-agent","legal-reviewer","seo-agent","qa-engineer"],
+    ais:[{n:"Claude",r:"Entwicklung über das 9-Agenten-Team"}]
+  },
+  technisch:[
+    {k:"Architektur",v:"pnpm-Monorepo: Web-App, eigenes Design-System, geteilte Schemas und die Datenbank-Schicht als separate Pakete"},
+    {k:"Spec-Driven",v:"101 strukturierte Feature-Specs mit Akzeptanzkriterien, Abhängigkeiten und Datenschutz-Markierungen"},
+    {k:"Stack",v:"Next.js 15 / React 19 / TypeScript, Tailwind v4 + shadcn/ui, Supabase (Datenbank, Login, Storage, Zugriffsregeln)"},
+    {k:"Qualität",v:"86 Unit-Tests (Vitest) + 83 E2E-Tests (Playwright) inkl. Barrierefreiheit, Performance-Checks, automatisches Secret-Scanning"},
+    {k:"Deployment",v:"Vercel (Frankfurt) + Supabase + Resend (EU) für die E-Mails - gleiche Pipeline wie bei Drachenspur (siehe dort)"},
+    {k:"Datenschutz",v:"Eigene Reviewer-Agenten für Datenschutz und Recht sind fester Teil der Pipeline"},
+    {k:"Status",v:"Seit Juni 2026 in Beta-Tests und laufender Geräteeinpflege, noch nicht vollständig live"}
+  ],
+  impressionen:[{file:"startseite.png",cap:"Startseite - Werkzeuge & Maschinen fürs Wochenendprojekt"},{file:"geraet-detail.png",cap:"Gerätedetail mit Verfügbarkeit"},{file:"verfuegbarkeit.png",cap:"Verfügbarkeits-Kalender - Zeitraum wählen"},{file:"vier-schritte.png",cap:"In vier Schritten zum Gerät"},{file:"mein-konto.png",cap:"Kundenbereich - eigene Buchungen im Überblick"},{file:"admin-dashboard.png",cap:"Admin-Dashboard - Anfragen, Auslastung, Buchungen"},{file:"admin-buchungen.png",cap:"Admin - Buchungsübersicht"},{file:"kalender-schliessfaecher.png",cap:"Kalender & Schließzeiten verwalten"},{file:"admin-geraet-anlegen.png",cap:"Neues Gerät anlegen mit KI-Recherche-Assistent"},{file:"einstellungen.png",cap:"Einstellungen"}]
+},
+{
+  slug:"net-obs", name:"NetObs", typeLabel:"Tool · Netzwerk-Monitoring", mono:"N",
+  status:"Aktiv", accent:"#2D6CDF", monthShort:"Jun 2026", timeframe:"23.-26. Juni 2026",
+  tagline:"Nach dem Umstieg auf Glasfaser gab es immer wieder kurze Netzwerkaussetzer. Dieses Tool misst rund um die Uhr und zeigt, ob das Problem im eigenen WLAN, an der Leitung zum Provider oder im Internet selbst liegt.",
+  heroline:"Netzwerkprobleme messen, lokalisieren, beheben.",
+  metrics:[{v:"FRITZ!Box",l:"API-Integration (TR-064)"},{v:"Live",l:"Web-Dashboard"},{v:"HTML/PDF",l:"Report-Export"},{v:"4",l:"Messpunkte"}],
+  tech:["Python 3.11+ (uv)","typer (CLI)","FastAPI + HTMX (Dashboard)","Plotly.js (Charts)","SQLite (WAL-Modus)","fritzconnection (TR-064)","icmplib + dnspython + httpx","WeasyPrint (PDF)","launchd (Autostart)"],
+  fachlich:{
+    idea:"Nach der Umstellung auf einen 1&amp;1-Glasfaseranschluss traten immer wieder kurze, undurchsichtige Netzwerkaussetzer auf - Webseiten hingen sekundenlang, Teams-Calls ruckelten, und der Support verwies auf „mögliche Probleme im Telekom-Netz\". Statt auf Zuruf zu vertrauen, sollte ein Tool dauerhaft mitschneiden, <b>wo genau</b> das Problem liegt: im eigenen WLAN, an der Leitung, beim Peering oder bei der DNS-Auflösung.",
+    does:"NetObs läuft als Hintergrund-Daemon auf dem Mac, misst permanent vier parallele Messpunkte (Gateway, erster ISP-Hop, mehrere öffentliche Ziele, mehrere DNS-Resolver), erkennt Auffälligkeiten über ein Sliding Window und ordnet jedem Vorfall automatisch eine Ursache zu. Ein Web-Dashboard zeigt alles live, ein Report-Befehl erzeugt ein druckbares HTML/PDF-Dokument für die Eskalation beim Provider.",
+    features:["Vier parallele <b>Messpunkte</b> (Gateway / ISP-Hop / Public-Targets / DNS) als Kern der Lokalisierung","Automatische <b>Incident-Erkennung & Klassifikation</b> (LOCAL, ISP_LINE, ISP_BACKBONE, PEERING, DNS, IPV6_STACK, LOCAL_ROAMING …)","Live-Web-Dashboard (FastAPI + HTMX + Plotly.js) mit Latenz-Charts, DNS-Vergleich und Incident-Liste","<b>FRITZ!Box-Integration</b> (TR-064): WAN-Status, Durchsatz, Mesh-Events, Roaming - korreliert mit den Probes","HTML-/PDF-Reports mit Executive Summary, gedacht für die Eskalation an den ISP","macOS-natives Autostart (launchd) + Mail-Alarm bei Incidents"],
+    special:{t:"Vom Datensatz zur Lösung",b:"Über den Live-Downloadstatus im Dashboard fiel auf: Es gab immer wieder Lastspitzen im Netz, die andere Geräte ausbremsten - lange unklar, woher und warum. Des Rätsels Lösung war eine alte FRITZ!Box-Einstellung: Die PlayStation war für geschmeidiges Remote Play unterwegs mit Echtzeit-Priorität eingestuft - sobald sie im Ruhemodus im Hintergrund etwas herunterlud, wurde dadurch das ganze Netz spürbar unrund. Jetzt ist es umgedreht: die MacBooks haben die Echtzeit-Priorität, seitdem laufen Meetings und Arbeitskontext ohne Probleme."},
+    flow:"Ein Orchestrator-Agent koordiniert den Fortschritt anhand eines dateibasierten Task-Trackers und delegiert an fünf spezialisierte Agenten - reine Konzeption und Review, keine eigene Implementierung durch den Orchestrator selbst.",
+    flowSteps:["Setup & Config","CLI + Daemon","Probes (Ping/DNS/HTTP)","FRITZ!Box-Integration","Detection + Klassifikation","Reporting (HTML/PDF)","Polish (IPv6, launchd, Mail)"],
+    agents:["orchestrator","requirements-engineer","fullstack-dev","code-reviewer","qa-engineer","security-reviewer"],
+    ais:[{n:"Claude Code",r:"Programmierung über das 6-Agenten-Team"}]
+  },
+  technisch:[
+    {k:"Architektur",v:"Drei unabhängige Komponenten auf einer gemeinsamen SQLite-Datenbank (WAL-Modus): Hintergrund-Daemon (Probes, Detector, Classifier), read-only Web-Dashboard (nur 127.0.0.1), und ein einmaliger Report-Befehl"},
+    {k:"Stack",v:"Python 3.11+ (uv), typer-CLI, FastAPI + HTMX + Plotly.js fürs Dashboard, SQLite, fritzconnection (TR-064), WeasyPrint für PDF-Export"},
+    {k:"Qualität",v:"123 Unit-Tests (Pytest), Ruff-Linting, pip-audit-Abhängigkeitsprüfung als Teil des Quality-Gates (make qa)"},
+    {k:"Deployment",v:"Läuft vollständig lokal auf macOS, kein Cloud-Dienst, keine Telemetrie. Optionaler Autostart über launchd."},
+    {k:"Datenschutz",v:"FRITZ!Box-Zugriff ausschließlich über einen eigens angelegten Read-only-User, nie den Admin-Account"}
+  ],
+  impressionen:[{file:"dashboard-latenz.png",cap:"Live-Dashboard - Latenz nach Kategorie (Gateway / ISP-Hop / Public)"},{file:"dashboard-dns.png",cap:"DNS-Antwortzeiten im Vergleich + Incidents der letzten 24 Stunden"},{file:"incidents.png",cap:"Incident-Liste mit automatischer Klassifikation"},{file:"fritzbox.png",cap:"FRITZ!Box-Tab - WAN-Status, Durchsatz, Ereignisse"},{file:"report.png",cap:"PDF-Report mit Executive Summary für die ISP-Eskalation"},{file:"config.png",cap:"Konfiguration der Probe- und Erkennungs-Schwellwerte"}]
+},
+{
+  slug:"mind-loop", name:"MindLoop", typeLabel:"Web-App · Lerntool", mono:"L",
+  status:"Aktiv", accent:"#1F6FCC", monthShort:"Jul 2026", timeframe:"Juli 2026",
+  tagline:"Lerntool zur Prüfungsvorbereitung auf ISTQB-Zertifizierungen: Karteikarten-Quizzes zum entspannten Lernen, aktiven Üben und einer realistischen, zeitgetakteten Prüfungssimulation.",
+  heroline:"Karteikarten-Quiz fürs ISTQB-Zertifikat.",
+  metrics:[{v:"150",l:"Prüfungsfragen"},{v:"3",l:"Lern-/Übungs-/Prüfungsmodus"},{v:"DE / EN",l:"zweisprachig"},{v:"5",l:"Kapitel"}],
+  tech:["Next.js 15 (App Router)","TypeScript","Prisma 7 + better-sqlite3-Adapter","next-intl (DE/EN)","Tailwind + shadcn/ui","argon2id","Vitest + Playwright"],
+  fachlich:{
+    idea:"MindLoop ist ein internes, userbasiertes Lerntool zur Prüfungsvorbereitung auf ISTQB-Zertifizierungen. Nutzer schreiben sich in einen Kurs ein und üben mit Karteikarten-Quizzes in drei Modi: entspanntes Durchlesen mit Lösungen, aktives Üben mit Sofort-Feedback und eine realistische Prüfungssimulation mit Timer. Fortschritts-Statistiken zeigen Stärken und Wissenslücken je Kapitel. Erster Kurs: CT-GenAI („Testen mit generativer KI\") - die Plattform ist kurs-agnostisch, weitere Kurse lassen sich über einen Content-Ordner einspeisen.",
+    does:"Ein Invite-Link erzeugt den Account, danach Login per Passwort. Im Kurskatalog schreibt man sich ein und sieht die Kapitelübersicht mit Fragenzahl je Kapitel. Im Lernmodus liest man Karten mit sofort sichtbarer Lösung, im Übungsmodus (Standard oder Mastery - falsch beantwortete Fragen kommen häufiger) gibt es sofortiges Feedback, im Prüfungsmodus zieht das System proportional Fragen über alle Kapitel, bewertet sie serverseitig und rechnet nach dem echten ISTQB-Punkteschema ab. Am Ende zeigt eine Statistik-Übersicht, wie stark oder schwach man je Kapitel steht.",
+    features:["Drei Modi: entspanntes <b>Lernen</b>, aktives <b>Üben</b> (Standard/Mastery) mit Sofort-Feedback, realistische <b>Prüfungssimulation</b> mit Timer","<b>150 geprüfte Fragen</b> über 5 Kapitel für den ersten Kurs (CT-GenAI)","Fortschritts-Statistik je Kapitel (stark/mittel/schwach/offen)","Serverseitige Bewertung im Prüfungsmodus - Antworten werden nie vorab an den Client geleakt","<b>Fragen-Feedback</b>: Nutzer können eine Frage als fehlerhaft melden (mit Kommentar)","Zweisprachige Oberfläche (DE/EN), Invite-basierte Registrierung, Passwort-Login mit argon2id"],
+    special:{t:"Content-Pipeline mit Prüf-Nachweis",b:"Jede Kurs-Grundlage (ein offizieller Syllabus als PDF) wird seitenweise in ein Wiki verwandelt, mit einem deterministischen Seiten-Coverage-Beweis (100 % in Deutsch und Englisch). Erst danach entstehen daraus Fragen, gewichtet nach Unterrichtsminuten und an Lernzielen verankert - und jede Frage durchläuft eine eigene fachliche Prüfung, bevor sie live geht."},
+    flow:"Ein Orchestrator ruft für Features und für Kursinhalte je eine eigene, feste Agenten-Kette auf: Features laufen über Requirements-Engineer → Full-Stack-Dev → Code-Reviewer → QA-Engineer, Kursinhalte über Content-Ingestor → Quizmaster → Question-Validator.",
+    flowSteps:["Syllabus-PDF","Wiki mit Coverage-Beweis","Fragen-Entwurf (Quizmaster)","Fachliche Prüfung (Question-Validator)"],
+    agents:["orchestrator","content-ingestor","quizmaster","question-validator","requirements-engineer","fullstack-dev","code-reviewer","qa-engineer"],
+    ais:[{n:"Claude Code",r:"Programmierung über Agenten-Team"}]
+  },
+  technisch:[
+    {k:"Architektur",v:"Next.js 15 (App Router, TypeScript) + Prisma 7 mit better-sqlite3-Adapter - kein Rust-Query-Engine-Binary zur Laufzeit nötig, SQLite als Datenbank"},
+    {k:"Auth",v:"Invite-Flow + Passwort-Login (argon2id), Sessions (gehashte Tokens), Rollen, CSRF-Schutz (Double-Submit), Rate-Limiting"},
+    {k:"Sicherheit im Prüfungsmodus",v:"server-autoritative Bewertung und Timer - Prüfungsantworten verlassen den Server nie vorab"},
+    {k:"Content",v:"150 validierte Fragen über 5 Kapitel, 100 % Seiten-Coverage in DE und EN"},
+    {k:"Qualität",v:"rund 49 Vitest-Unit-Tests plus ein schlanker Playwright-Smoke-Test über den kompletten Nutzerfluss"}
+  ],
+  impressionen:[{file:"dashboard.png",cap:"Dashboard - meine Kurse und Kurskatalog"},{file:"kurs-uebersicht.png",cap:"Kursübersicht - drei Lernmodi und Kapitelliste"},{file:"lernmodus.png",cap:"Lernmodus - Frage mit sofort sichtbarer Lösung"},{file:"uebungsmodus-start.png",cap:"Übungsmodus - Standard oder Mastery wählen"},{file:"uebungsmodus-frage.png",cap:"Übungsmodus - Frage beantworten"},{file:"pruefung-start.png",cap:"Prüfungssimulation - Regeln und Start"},{file:"pruefung-frage.png",cap:"Prüfungssimulation mit Timer und Fragen-Navigator"},{file:"statistik.png",cap:"Statistik je Kapitel (stark/mittel/schwach/offen)"}]
+}
+];
+const ASSET_BASE="../assets/screenshots/";
+function rgb(hex){return [parseInt(hex.slice(1,3),16),parseInt(hex.slice(3,5),16),parseInt(hex.slice(5,7),16)];}
+function setVars(elm,hex){const[r,g,b]=rgb(hex);
+  elm.style.setProperty('--pac',hex);
+  elm.style.setProperty('--pac-tint',`rgba(${r},${g},${b},.07)`);
+  elm.style.setProperty('--pac-deep',`rgb(${Math.round(r*.7)},${Math.round(g*.7)},${Math.round(b*.7)})`);
+  elm.style.setProperty('--pac-grad',`linear-gradient(135deg,rgb(${r},${g},${b}),rgb(${Math.round(r*.66)},${Math.round(g*.66)},${Math.round(b*.66)}))`);
+  elm.style.setProperty('--pac-grad-soft',`linear-gradient(135deg,rgba(${r},${g},${b},.1),rgba(${r},${g},${b},.02))`);
+}
+
+let heroCycle=[],heroSi=0,heroSlides=[],heroDots=[];
+function setHeroSlide(i){
+  heroSlides[heroSi].classList.remove('on');heroDots[heroSi].classList.remove('on');
+  heroSi=i;
+  heroSlides[heroSi].classList.add('on');heroDots[heroSi].classList.add('on');
+  const p=heroCycle[heroSi];
+  document.getElementById('herofacts').innerHTML=`<div class="pname">${p.name}</div><div class="ptext">${p.heroline||p.tagline}</div>`;
+}
+function clickStage(){
+  const p=heroCycle[heroSi];
+  const row=document.getElementById('row-'+p.slug);
+  if(!row)return;
+  row.scrollIntoView({behavior:'smooth',block:'center'});
+  row.classList.add('flash');
+  setTimeout(()=>row.classList.remove('flash'),1200);
+}
+function renderOverview(){
+  document.getElementById('fcount').textContent=PROJECTS.length+' Projekte, Stand Juli 2026';
+  // hero slideshow - echte Projekt-Screenshots (Mailo hat kein passendes Hero-Motiv, bleibt außen vor)
+  // Drachenspur zuerst zeigen, Rest in der ursprünglichen Reihenfolge
+  heroCycle=[PROJECTS.find(p=>p.slug==='drachenspur'),...PROJECTS.filter(p=>p.slug!=='mailo'&&p.slug!=='drachenspur')];
+  const stage=document.getElementById('stage');
+  stage.innerHTML=heroCycle.map((p,i)=>{
+    const shot=ASSET_BASE+p.slug+'/'+p.impressionen[0].file;
+    const pos=p.slug==='drachenspur'?'center top':'left top';
+    return `<div class="slide${i===0?' on':''}">
+      <img src="${shot}" alt="${p.name}" style="object-position:${pos}" onerror="this.style.display='none'"></div>`;}).join('');
+  const bar=document.getElementById('stagebar');
+  bar.innerHTML=heroCycle.map((p,i)=>`<b class="${i===0?'on':''}" onclick="event.stopPropagation();setHeroSlide(${i})" title="${p.name}"></b>`).join('');
+  heroSlides=Array.from(stage.querySelectorAll('.slide'));
+  heroDots=Array.from(bar.querySelectorAll('b'));
+  heroSi=0;
+  document.getElementById('herofacts').innerHTML=`<div class="pname">${heroCycle[0].name}</div><div class="ptext">${heroCycle[0].heroline||heroCycle[0].tagline}</div>`;
+  clearInterval(window._heroTimer);
+  window._heroTimer=setInterval(()=>{setHeroSlide((heroSi+1)%heroSlides.length);},5000);
+  // project rows
+  const list=document.getElementById('projects-list');list.innerHTML='';
+  PROJECTS.forEach((p,i)=>{
+    const row=document.createElement('div');row.className='prow';row.id='row-'+p.slug;setVars(row,p.accent);
+    const num=String(i+1).padStart(2,'0');
+    const shot=ASSET_BASE+p.slug+'/'+p.impressionen[0].file;
+    row.innerHTML=`
+      <div class="idx">${num}</div>
+      <div>
+        <div class="meta-top">${p.monthShort} · ${p.typeLabel}</div>
+        <h3>${p.name}</h3>
+        <div class="ptag">${p.tagline}</div>
+        <div class="chips">${p.metrics.slice(0,3).map(m=>`<span>${m.v} ${m.l}</span>`).join('')}</div>
+      </div>
+      <div class="thumb"><div class="mono">${p.mono}</div><img src="${shot}" alt="" onerror="this.remove()"><div class="arrow">Ansehen →</div></div>`;
+    row.onclick=()=>openDetail(i);
+    list.appendChild(row);
+  });
+}
+
+function flowHtml(f){
+  let h=`<h4>Agentic Flow</h4><p>${f.flow}</p>`;
+  if(f.flowSteps&&f.flowSteps.length){
+    h+=`<div class="flow">`+f.flowSteps.map((s,i)=>`<span class="step"><b>${i+1}</b>${s}</span>${i<f.flowSteps.length-1?'<span class="arr">→</span>':''}`).join('')+`</div>`;
+  }
+  if(f.agents&&f.agents.length){
+    h+=`<div class="sub">Beteiligte Agenten</div><div class="agents">`+f.agents.map(a=>`<span class="ag">${a}</span>`).join('')+`</div>`;
+  }
+  if(f.ais&&f.ais.length){
+    h+=`<div class="sub">KI im Einsatz</div><div class="ais">`+f.ais.map(a=>`<div class="ai"><b>${a.n}</b> - ${a.r}</div>`).join('')+`</div>`;
+  }
+  return h;
+}
+let LB_SHOTS=[],LB_IDX=0;
+let lbScale=1,lbX=0,lbY=0,lbDrag=false,lbStartX=0,lbStartY=0;
+function openLightbox(k){
+  LB_IDX=k;renderLightbox();
+  document.getElementById('lightbox').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('on');
+  document.body.style.overflow='';
+}
+function lbNav(dir){
+  if(!LB_SHOTS.length)return;
+  LB_IDX=(LB_IDX+dir+LB_SHOTS.length)%LB_SHOTS.length;
+  renderLightbox();
+}
+function renderLightbox(){
+  const s=LB_SHOTS[LB_IDX];if(!s)return;
+  const img=document.getElementById('lb-img');
+  img.src=s.src;img.alt=s.cap;
+  document.getElementById('lb-cap').textContent=`${LB_IDX+1} / ${LB_SHOTS.length} - ${s.cap}`;
+  lbReset();
+}
+function lbZoom(delta){
+  lbScale=Math.min(4,Math.max(1,+(lbScale+delta).toFixed(2)));
+  if(lbScale===1){lbX=0;lbY=0;}
+  applyLbTransform();
+}
+function lbReset(){lbScale=1;lbX=0;lbY=0;applyLbTransform();}
+function applyLbTransform(){
+  const img=document.getElementById('lb-img');
+  if(!img)return;
+  img.style.transform=`translate(-50%,-50%) translate(${lbX/lbScale}px,${lbY/lbScale}px) scale(${lbScale})`;
+  const vp=document.getElementById('lb-viewport');
+  if(vp)vp.classList.toggle('zoomed',lbScale>1);
+}
+document.addEventListener('mousedown',(e)=>{
+  const vp=document.getElementById('lb-viewport');
+  if(vp&&vp.contains(e.target)&&lbScale>1){
+    lbDrag=true;lbStartX=e.clientX-lbX;lbStartY=e.clientY-lbY;
+    vp.classList.add('dragging');
+  }
+});
+document.addEventListener('mousemove',(e)=>{
+  if(lbDrag){lbX=e.clientX-lbStartX;lbY=e.clientY-lbStartY;applyLbTransform();}
+});
+document.addEventListener('mouseup',()=>{
+  lbDrag=false;const vp=document.getElementById('lb-viewport');if(vp)vp.classList.remove('dragging');
+});
+document.addEventListener('wheel',(e)=>{
+  const vp=document.getElementById('lb-viewport');
+  if(vp&&vp.contains(e.target)&&document.getElementById('lightbox').classList.contains('on')){
+    e.preventDefault();
+    lbZoom(e.deltaY<0?0.35:-0.35);
+  }
+},{passive:false});
+document.addEventListener('keydown',(e)=>{
+  if(!document.getElementById('lightbox').classList.contains('on'))return;
+  if(e.key==='Escape')closeLightbox();
+  else if(e.key==='ArrowLeft'&&lbScale===1)lbNav(-1);
+  else if(e.key==='ArrowRight'&&lbScale===1)lbNav(1);
+  else if(e.key==='+')lbZoom(0.5);
+  else if(e.key==='-')lbZoom(-0.5);
+  else if(e.key==='0')lbReset();
+});
+function openDetail(i){
+  const p=PROJECTS[i];const d=document.getElementById('detail');setVars(d,p.accent);
+  document.getElementById('d-type').textContent=p.typeLabel+' · '+p.timeframe;
+  document.getElementById('d-name').textContent=p.name;
+  document.getElementById('d-tag').textContent=p.tagline;
+  document.getElementById('d-metrics').innerHTML=p.metrics.map(m=>`<div class="metric"><div class="v">${m.v}</div><div class="l">${m.l}</div></div>`).join('');
+  // statisches Beispielbild (kein Slider)
+  const shots=p.impressionen;
+  const hs=document.getElementById('d-heroshots');
+  const pos=p.slug==='drachenspur'?'center top':'left top';
+  hs.innerHTML=shots[0]?`<img src="${ASSET_BASE+p.slug+'/'+shots[0].file}" alt="${shots[0].cap}" style="object-position:${pos}" onerror="this.style.display='none'">`:'';
+  LB_SHOTS=p.impressionen.map(s=>({src:ASSET_BASE+p.slug+'/'+s.file,cap:s.cap,mono:p.mono,file:s.file}));
+  const f=p.fachlich;
+  const fHtml=`<div class="col">
+    <h4>Die Idee</h4><p>${f.idea}</p>
+    <h4>Was es tut</h4><p>${f.does}</p>
+    <h4>Kernfeatures</h4><ul>${f.features.map(x=>`<li>${x}</li>`).join('')}</ul>
+    ${f.special?`<div class="special"><div class="st">${f.special.t}</div><p>${f.special.b}</p></div>`:''}
+    ${flowHtml(f)}</div>`;
+  const tHtml=`<div class="col"><h4>Technologie-Stack</h4><div class="techgrid">${p.tech.map(t=>`<span>${t}</span>`).join('')}</div>
+    <h4>Hard Facts</h4><div class="trow">${p.technisch.map(r=>`<div class="ti2"><div class="k">${r.k}</div><div class="v">${r.v}</div></div>`).join('')}</div></div>`;
+  const iHtml=`<div class="shots">${p.impressionen.map((s,k)=>`
+      <div class="shotcard" onclick="openLightbox(${k})"><div class="simg"><img src="${ASSET_BASE+p.slug+'/'+s.file}" alt="${s.cap}" data-mono="${p.mono}" data-file="${s.file}" onerror="imgFail(this)"></div><div class="cap">${s.cap}</div></div>`).join('')}</div>`;
+  const tabs=[{n:"Fachlich",h:fHtml},{n:"Technik",h:tHtml},{n:"Screenshots",h:iHtml}];
+  document.getElementById('d-tabs').innerHTML=tabs.map((t,k)=>`<div class="tab ${k===0?'on':''}" onclick="switchTab(${k})">${t.n}</div>`).join('');
+  document.getElementById('d-panels').innerHTML=tabs.map((t,k)=>`<div class="panel ${k===0?'on':''}" id="panel-${k}">${t.h}</div>`).join('');
+  document.getElementById('overview').style.display='none';d.style.display='block';window.scrollTo({top:0});
+}
+function switchTab(k){
+  document.querySelectorAll('#detail .tab').forEach((t,i)=>t.classList.toggle('on',i===k));
+  document.querySelectorAll('#detail .panel').forEach((p,i)=>p.classList.toggle('on',i===k));
+}
+function jumpTab(k){
+  switchTab(k);
+  document.querySelector('#detail .tabs').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function imgFail(img){const ph=document.createElement('div');ph.className='imgph';
+  ph.innerHTML='<span class="lg">'+img.dataset.mono+'</span><small>'+img.dataset.file+'</small>';img.replaceWith(ph);}
+function goHome(){closeLightbox();document.getElementById('detail').style.display='none';
+  document.getElementById('overview').style.display='block';window.scrollTo({top:0});}
+function goTo(id){
+  if(document.getElementById('detail').style.display==='block'){
+    document.getElementById('detail').style.display='none';document.getElementById('overview').style.display='block';}
+  const t=document.getElementById(id);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+}
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>24));
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+renderOverview();
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+</script>
+</body>
+</html>
