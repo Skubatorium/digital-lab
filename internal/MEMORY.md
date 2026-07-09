@@ -264,6 +264,25 @@ ursprünglichen Sitzung) plus die inzwischen bestätigten Zahlen ergab folgende 
 - Nach jeder Änderung: JS-Syntax geprüft (`node --check`), alle 47 Bildreferenzen über alle 6
   Projekte aufgelöst (kein 404-Risiko).
 
+### MindLoop-Screenshots erneuert (09.07.2026)
+
+Alle 8 MindLoop-Screenshots waren vom 05.07.2026 (Commit 109b6fa) - seither lief u. a. Commit
+`1b58830` ("fix(design-system): fix serif fallback and undersized headings"): Font-Variable war
+nur auf `<body>` statt `<html>` im Scope (Serif-Fallback-Risiko) und `--text-xs` bis `--text-3xl`
+waren nie im `@theme`-Block registriert, wodurch Tailwind für alle Überschriften seine eigene, bis
+zu ~35 % kleinere Standardskala nutzte statt der Design-System-Werte. Dazu mehrere UI-Änderungen
+(4-Schritte-Dashboard, nummerierte Formulare, Kapitel-Fragenzahlen). Dev-Server lokal auf Port 3300
+gestartet, dedizierter Screenshot-Nutzer `showcase`/„Show Case" (Rolle Admin) per
+`create-admin.ts` angelegt (bestehende Nutzer unangetastet), per Playwright-Skript exakt dieselben
+8 Stationen wie beim Original-Durchlauf abgefahren (Login → Dashboard → Kursübersicht → Lernen →
+Üben-Start → Üben-Frage → Prüfung-Start → Prüfung-Frage → Statistik, DE-Locale, Viewport 1440×900,
+Full-Page) und die 8 PNGs unter identischem Dateinamen in `assets/screenshots/mind-loop/`
+überschrieben - keine Datei umbenannt, hinzugefügt oder entfernt. Übungs-/Prüfungssessions bewusst
+nicht abgeschlossen (nur erste Frage angezeigt), damit die Statistik-Seite wie im Original bei
+0 Stark/Mittel/Schwach bleibt. Der `showcase`-Testnutzer bleibt in der lokalen Dev-DB von MindLoop
+stehen (ähnlich den dort bereits vorhandenen `testuser`/`verify-sum-*`-Alt-Accounts) - bei Bedarf
+manuell aufräumen.
+
 ## Offene Punkte
 
 - [ ] Finaler Showcase-Name steht noch aus (Arbeitstitel: „Agentic Projects").
