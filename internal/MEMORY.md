@@ -283,6 +283,13 @@ nicht abgeschlossen (nur erste Frage angezeigt), damit die Statistik-Seite wie i
 stehen (ähnlich den dort bereits vorhandenen `testuser`/`verify-sum-*`-Alt-Accounts) - bei Bedarf
 manuell aufräumen.
 
+**Nachtrag selber Tag:** erster Durchlauf nutzte `fullPage: true` (Playwright) - dadurch variable
+Bildhöhen je nach Seiteninhalt (z. B. Kursübersicht deutlich höher als Dashboard). Christian wollte
+stattdessen durchgehend nur den sichtbaren Viewport (kein Scroll-Stitching), fixe Auflösung
+1440×900 für alle 8 Bilder, Pivot oben-links (Logo bleibt oben links stehen, kein mittiger
+Beschnitt). Zweiter Durchlauf mit `fullPage: false` über denselben `showcase`-Nutzer/dieselben 8
+Stationen wiederholt, Dateien erneut unter identischem Namen überschrieben.
+
 ## Offene Punkte
 
 - [ ] Finaler Showcase-Name steht noch aus (Arbeitstitel: „Agentic Projects").
