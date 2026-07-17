@@ -13,11 +13,15 @@ mit Tabs (Fachlich / Technisch / Impressionen) führen.
   ein Cowork Live-Artifact. Das ist die einzige kanonische Datei, siehe Warnhinweis in `internal/MEMORY.md`.
 - **Stand & Index:** in `internal/MEMORY.md`.
 
-## Deployment (GitLab Pages)
+## Deployment (GitHub Pages)
 
-`.gitlab-ci.yml` baut bei jedem Push auf den Default-Branch den `public/`-Ordner (nur
-`showcase/index.html` + `assets/`) und veröffentlicht ihn über GitLab Pages. Alles unter
+`.github/workflows/pages.yml` baut bei jedem Push auf `main` automatisch einen `_site`-Ordner
+(nur `showcase/index.html` + `assets/`, plus CNAME) und veröffentlicht ihn über GitHub Pages auf
+**lab.osgame.de**. Kein manueller Schritt nötig, dauert meist ein bis zwei Minuten. Alles unter
 `internal/` und `projects/` bleibt Repo-intern, wird nie live gestellt.
+
+`.gitlab-ci.yml` ist ein Altlast-Rest aus einer früheren GitLab-Phase des Repos und wird nicht
+mehr ausgeführt (Repo liegt seit längerem auf GitHub) - kann bei Gelegenheit entfernt werden.
 
 ## Dateien
 
@@ -30,7 +34,8 @@ mit Tabs (Fachlich / Technisch / Impressionen) führen.
 | `projects/*.md` | Eine Datei pro Projekt — Quelle der Wahrheit für den Inhalt |
 | `assets/screenshots/<slug>/` | Screenshots je Projekt |
 | `showcase/` | Gebautes Showcase (HTML), kanonische Live-Datei |
-| `.gitlab-ci.yml` | Pages-Build (nur `showcase/index.html` + `assets/` → `public/`) |
+| `.github/workflows/pages.yml` | GitHub-Pages-Build (nur `showcase/index.html` + `assets/` → `_site/`), läuft bei jedem Push auf `main` |
+| `.gitlab-ci.yml` | Unbenutzter Rest aus früherer GitLab-Phase, nicht mehr aktiv |
 
 ## Erfasste Projekte
 
