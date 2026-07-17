@@ -8,6 +8,8 @@ mit Tabs (Fachlich / Technisch / Impressionen) führen.
 
 - **Projekt erfassen:** `internal/PROMPT_projekt-erfassen.md` öffnen, Anleitung oben befolgen.
 - **Screenshots beisteuern:** siehe `internal/SCREENSHOTS.md`.
+- **Screenshots automatisiert erzeugen lassen** (für ein beliebiges Projekt, nicht manuell
+  fotografiert): siehe `internal/AUTOMATED_SCREENSHOTS.md`.
 - **Showcase bauen:** in Cowork sagen „Bau das Showcase neu" (liest `projects/*.md` + Screenshots)
   — Ergebnis wird **immer** direkt in `showcase/index.html` in diesem Repo geschrieben, nicht in
   ein Cowork Live-Artifact. Das ist die einzige kanonische Datei, siehe Warnhinweis in `internal/MEMORY.md`.
@@ -30,6 +32,7 @@ mehr ausgeführt (Repo liegt seit längerem auf GitHub) - kann bei Gelegenheit e
 | `internal/MEMORY.md` | Index + State-Tracker (zuerst lesen) |
 | `internal/PROMPT_projekt-erfassen.md` | Wiederverwendbarer Prompt, um ein Repo standardisiert zu erfassen |
 | `internal/SCREENSHOTS.md` | Welche Screenshots gebraucht werden + Ablage |
+| `internal/AUTOMATED_SCREENSHOTS.md` | Playbook: Screenshots per Sandbox/Playwright selbst erzeugen (statt manuell) |
 | `internal/docs/` | Feedback/QA-Notizen |
 | `projects/*.md` | Eine Datei pro Projekt — Quelle der Wahrheit für den Inhalt |
 | `assets/screenshots/<slug>/` | Screenshots je Projekt |

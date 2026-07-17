@@ -3,6 +3,10 @@
 > Dies ist das Gedächtnis dieses Ordners. Es hält fest, **was hier passiert**, **welche Projekte
 > erfasst sind** und **auf welchem Stand** sie sind — damit Updates inkrementell laufen, ohne dass
 > jedes Repo komplett neu gelesen werden muss. Lies diese Datei zu Beginn jeder Sitzung zuerst.
+>
+> Sollen für ein Projekt (gleich welches) Screenshots automatisiert statt manuell erzeugt werden:
+> siehe `internal/AUTOMATED_SCREENSHOTS.md` — projektunabhängiges Playbook, MindLoop war nur der
+> erste Anwendungsfall.
 
 ## ⚠️ KRITISCH: Kanonische Datei — hier und nur hier arbeiten
 
