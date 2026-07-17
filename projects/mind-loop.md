@@ -1,7 +1,7 @@
 ---
 slug: mind-loop
 name: MindLoop
-tagline: Internes Lerntool zur Prüfungsvorbereitung auf ISTQB-Zertifizierungen — Karteikarten-Quizzes zum entspannten Lernen, aktiven Üben und einer realistischen, zeitgetakteten Prüfungssimulation
+tagline: Lerntool zur Prüfungsvorbereitung auf ISTQB-Zertifizierungen — Karteikarten-Quizzes zum entspannten Lernen, aktiven Üben und einer realistischen, zeitgetakteten Prüfungssimulation
 type: web-app
 status: active
 accent: "#1F6FCC"
@@ -17,8 +17,8 @@ metrics:
     value: "3"
   - label: zweisprachig
     value: "DE / EN"
-  - label: Prüfungssimulation mit Timer
-    value: "60 Min"
+  - label: Kapitel
+    value: "5"
 tech:
   - Next.js 15 (App Router) + TypeScript
   - Prisma 7 + better-sqlite3-Adapter
@@ -28,32 +28,38 @@ tech:
   - Vitest + Playwright (Smoke)
 ais:
   - Claude Code — Programmierung über Agenten-Team
-last_scanned: 2026-07-05
-source_commit: "HEAD @ 2026-07-04 (109b6fa)"
+last_scanned: 2026-07-18
+source_commit: "HEAD @ 2026-07-13 (0984eb0)"
 ---
 
 ## Fachlich
 
-**Idee.** MindLoop ist ein internes, userbasiertes Lerntool zur Prüfungsvorbereitung auf
+**Idee.** MindLoop ist ein userbasiertes Lerntool zur Prüfungsvorbereitung auf
 ISTQB-Zertifizierungen. Nutzer schreiben sich in einen Kurs ein und üben mit Karteikarten-Quizzes
 in drei Modi: entspanntes Durchlesen mit Lösungen, aktives Üben mit Sofort-Feedback und eine
-realistische Prüfungssimulation mit Timer. Fortschritts-Statistiken zeigen Stärken und
-Wissenslücken je Kapitel. Erster Kurs: **CT-GenAI** ("Testen mit generativer KI") — die Plattform
-ist kurs-agnostisch, weitere Kurse lassen sich über einen Content-Ordner einspeisen.
+realistische Prüfungssimulation mit Timer. Dazu kommen Kapitel-Zusammenfassungen zum Nachlesen
+inklusive Cheat Sheet und Merkhilfen. Fortschritts-Statistiken zeigen Stärken und Wissenslücken
+je Kapitel. Erster Kurs: **CT-GenAI** ("Testen mit generativer KI") — die Plattform ist
+kurs-agnostisch, weitere Kurse lassen sich über einen Content-Ordner einspeisen.
 
-**Was es tut.** Ein Invite-Link erzeugt den Account, danach Login per Passwort. Im Kurskatalog
-meldet man sich für einen Kurs an und sieht die Kapitelübersicht mit Fragenzahl und K-Level.
-Im Lernmodus liest man Karten mit sofort sichtbarer Lösung, im Übungsmodus (Standard oder
-Mastery — falsch beantwortete Fragen kommen häufiger) gibt es sofortiges Feedback, im
-Prüfungsmodus zieht das System proportional Fragen über alle Kapitel, bewertet sie serverseitig
-und rechnet nach dem echten ISTQB-Punkteschema ab (K1/K2 = 1 Punkt, K3 = 2 Punkte). Am Ende zeigt
-eine Statistik-Übersicht, wie stark oder schwach man je Kapitel steht.
+**Was es tut.** Ein Invite-Link erzeugt den Account, danach Login per Passwort. Das Dashboard
+führt in drei Schritten zum Einstieg: Kurs einschreiben, Kurs öffnen, Lernmethode wählen. Im
+Kurskatalog schreibt man sich ein und sieht die Kapitelübersicht mit Fragenzahl je Kapitel. Zum
+Nachlesen gibt es je Kapitel eine Zusammenfassung als Wiki-Seite, die unten in ein Cheat Sheet und
+Merkhilfen (Akronyme, Eselsbrücken) mündet. Im Übungsmodus (Standard oder Mastery — falsch
+beantwortete Fragen kommen häufiger) gibt es sofortiges Feedback, im Prüfungsmodus zieht das
+System proportional Fragen über alle Kapitel, bewertet sie serverseitig und rechnet nach dem
+echten ISTQB-Punkteschema ab (K1/K2 = 1 Punkt, K3 = 2 Punkte). Am Ende zeigt eine
+Statistik-Übersicht je Kapitel, wie stark oder schwach man steht — wahlweise über alle Fragen des
+Kapitels oder nur die bereits beantworteten.
 
 **Kernfeatures.**
 - Drei Modi: entspanntes <b>Lernen</b>, aktives <b>Üben</b> (Standard/Mastery) mit Sofort-Feedback, realistische <b>Prüfungssimulation</b> mit Timer
+- <b>Kapitel-Zusammenfassungen zum Nachlesen</b>, inklusive Cheat Sheet und Merkhilfen (Akronyme, Eselsbrücken) je Kapitel
 - <b>150 geprüfte Fragen</b> über 5 Kapitel für den ersten Kurs (CT-GenAI), K-Level-Mix wie im echten Examen
-- Fortschritts-Statistik je Kapitel (stark/mittel/schwach/offen)
+- Fortschritts-Statistik je Kapitel (stark/mittel/schwach/offen), umschaltbar zwischen allen und nur beantworteten Fragen
 - Serverseitige Bewertung im Prüfungsmodus — Antworten werden nie vorab an den Client geleakt
+- <b>Fragen-Feedback</b>: Nutzer können eine Frage als fehlerhaft melden (mit Kommentar)
 - Zweisprachige Oberfläche (DE/EN), inklusive aller Fragen und Antworten
 - Invite-basierte Registrierung, Passwort-Login mit argon2id, kein offener Self-Signup
 
@@ -84,11 +90,15 @@ Question-Validator.
 
 <!-- Screenshots in assets/screenshots/mind-loop/ ablegen -->
 - file: dashboard.png
-  caption: Dashboard — meine Kurse und Kurskatalog
+  caption: Dashboard — Einstieg in drei Schritten, meine Kurse
 - file: kurs-uebersicht.png
   caption: Kursübersicht — drei Lernmodi und Kapitelliste
 - file: lernmodus.png
   caption: Lernmodus — Frage mit sofort sichtbarer Lösung
+- file: kapitelzusammenfassung.png
+  caption: Kapitel-Zusammenfassung zum Nachlesen
+- file: merkhilfen.png
+  caption: Cheat Sheet und Merkhilfen am Kapitelende
 - file: uebungsmodus-start.png
   caption: Übungsmodus — Standard oder Mastery wählen
 - file: uebungsmodus-frage.png

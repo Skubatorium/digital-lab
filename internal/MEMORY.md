@@ -75,7 +75,7 @@ Maschinenverleih → NetObs. Reihenfolge ist die Sortierung des `PROJECTS`-Array
 | 03 | `mailo` | MAILO | agentic-assistant | live | 2026-05-16 → laufend | kein Git | ✅ 5 |
 | 04 | `maschinenverleih-skubatz` | Maschinenverleih Skubatz | web-app | active | 2026-06-01 → laufend | HEAD @ 2026-06-16 | ✅ 10 |
 | 05 | `net-obs` | NetObs | tool | active | 2026-06-23 → 2026-06-26 | kein Git | ✅ 6 |
-| 06 | `mind-loop` | MindLoop | web-app | active | 2026-07-04 → laufend | HEAD @ 2026-07-04 (109b6fa) | ✅ 9 |
+| 06 | `mind-loop` | MindLoop | web-app | active | 2026-07-04 → laufend | HEAD @ 2026-07-13 (0984eb0) | ✅ 10 |
 
 ### MindLoop erfasst + Screenshots automatisiert erzeugt (05.07.2026)
 
@@ -289,6 +289,45 @@ stattdessen durchgehend nur den sichtbaren Viewport (kein Scroll-Stitching), fix
 1440×900 für alle 8 Bilder, Pivot oben-links (Logo bleibt oben links stehen, kein mittiger
 Beschnitt). Zweiter Durchlauf mit `fullPage: false` über denselben `showcase`-Nutzer/dieselben 8
 Stationen wiederholt, Dateien erneut unter identischem Namen überschrieben.
+
+### MindLoop-Update: neue Features nachgezogen, Screenshots erneuert (18.07.2026)
+
+MindLoop war seit der letzten Erfassung (HEAD 109b6fa, 04.07.2026) bis HEAD 0984eb0 (13.07.2026)
+weitergebaut worden. Nur dieses eine Projekt wurde in dieser Runde angefasst, auf Christians
+ausdrücklichen Wunsch - alle anderen Projekte bleiben unverändert.
+
+Neu in der Showcase-Copy (`projects/mind-loop.md` + `showcase/index.html`, `fachlich.does`/
+`features`/`impressionen`): redesignter 3-Schritte-Einstieg auf dem Dashboard (`0a8f51c`); neuer
+Info-Lernmodus mit Kapitel-Zusammenfassungen als Wiki-Seite, die am Ende in ein Cheat Sheet und
+Merkhilfen (Akronyme, Eselsbrücken) mündet (`8cfa6fe` + Wiki-Content-Erweiterung Spec 026); Statistik-
+Seite mit Umschalter "alle Fragen des Kapitels" / "nur beantwortete Fragen" (`0958b65`). Dabei auch
+zwei kleine Alt-Inkonsistenzen zwischen `projects/mind-loop.md` und dem bereits weiter fortgeschrittenen
+`showcase/index.html` nachgezogen (die Runde vom 06.07. hatte nur die HTML-Datei aktualisiert, nicht
+die .md-Quelle): "Internes" aus der Tagline raus, Metrik "60 Min Prüfungssimulation" → "5 Kapitel".
+
+**Screenshots erneuert (Sandbox-Klon, nicht im echten MindLoop-Repo gearbeitet):** Repo in eine
+Linux-Sandbox-Kopie geklont (nicht im echten `~/Workspace/Repos/mind-loop`, um dessen node_modules/
+dev.db nicht anzufassen), `npm install` mit `--nodedir=/usr`, DB per direkt ausgeführten
+`migration.sql`-Dateien aufgebaut (Schema-Engine-Download war durch das Sandbox-Netzwerk-Allowlist
+blockiert, `prisma generate` daher übersprungen und der bereits im echten Repo vorhandene generierte
+Adapter-Client nach `src/generated/prisma` kopiert - reines TypeScript, keine native Binary, plattform-
+unabhängig). `better-sqlite3` mangels Prebuild lokal per `node-gyp --debug` kompiliert (Release-Build
+brach am großen `sqlite3.c` regelmäßig am 45-Sekunden-Zeitlimit ab, Debug kompiliert ohne Optimierung
+schnell genug). Chromium für Playwright per resumable `curl -C -` besorgt (Playwrights eigener
+Downloader unterstützt kein Resume und schaffte die 187 MB nie vor dem Zeitlimit); dabei fiel auf,
+dass ein früherer `npm install`-Versuch die `@next/swc-linux-arm64-gnu`-Binary abgeschnitten
+heruntergeladen hatte (Bus-Error beim Laden) - Re-Install mit geleertem npm-Cache behoben. Fehlendes
+`libXdamage.so.1` wie schon am 05.07. dokumentiert per Vier-Funktionen-Stub-Library gelöst. Login,
+Einschreibung und alle 10 Stationen (Dashboard → Kursübersicht → Lernen → Kapitel-Zusammenfassung →
+Cheat-Sheet/Merkhilfen-Scroll → Üben-Start → Üben-Frage → Prüfung-Start → Prüfung-Frage → Statistik)
+mit dediziertem `showcase`-Testnutzer (Rolle Admin) durchlaufen, Viewport 1440×900, kein
+`fullPage`-Scroll-Stitching, wie am 09.07. als Christians Vorgabe festgehalten. Google Fonts
+(Figtree/IBM Plex Mono) waren im Sandbox-Netzwerk blockiert - Screenshots zeigen daher System-
+Fallback-Schrift statt der echten Design-System-Fonts, Layout/Inhalt sind aber unverändert korrekt.
+Ein bestehender App-Bug fiel dabei auf: die Kapitel-Wiki-Seite rendert den Quellen-HTML-Kommentar
+(`<!-- Quelle: ... -->`) als sichtbaren Text statt ihn zu verstecken - für den Kapitelzusammenfassung-
+Screenshot per DOM-Manipulation vor der Aufnahme ausgeblendet (nur fürs Bild, keine Code-Änderung im
+MindLoop-Repo), Christian aber separat gemeldet, da es live so auch für echte Nutzer sichtbar ist.
 
 ## Offene Punkte
 
