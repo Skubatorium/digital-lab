@@ -38,6 +38,11 @@
   .navlinks a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1.5px;
     background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
   .navlinks a:hover{color:var(--ink)}.navlinks a:hover::after{transform:scaleX(1)}
+  .langswitch{display:flex;gap:2px;border:1px solid var(--line);border-radius:99px;padding:3px}
+  .langswitch button{border:none;background:none;font-size:12.5px;font-weight:500;color:var(--muted);
+    padding:5px 13px;border-radius:99px;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+  .langswitch button.on{background:var(--ink);color:var(--bg)}
+  .langswitch button:hover:not(.on){color:var(--ink)}
 
   /* ---------- HERO ---------- */
   .hero{padding:150px 0 70px}
@@ -253,8 +258,12 @@
 <nav id="nav"><div class="inner">
   <div class="wordmark" onclick="goHome()">Christian Skubatz</div>
   <div class="navlinks">
-    <a onclick="goTo('projects')">Projekte</a>
-    <a onclick="goTo('footer')">Kontakt</a>
+    <a id="nav-projects" onclick="goTo('projects')">Projekte</a>
+    <a id="nav-contact" onclick="goTo('footer')">Kontakt</a>
+    <div class="langswitch" id="langswitch">
+      <button data-lang="de" onclick="setLang('de')">DE</button>
+      <button data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </div></nav>
 
@@ -262,8 +271,8 @@
   <header class="hero"><div class="wrap"><div class="herogrid">
     <div class="reveal herotext">
       <div class="eyebrow">Agentic Projects</div>
-      <h1>Ideen einfach <em>selbst</em> umsetzen.</h1>
-      <p class="lead">Private Projekte aus meiner Freizeit, mal um ein Problem zu lösen, mal um
+      <h1 id="hero-h1">Ideen einfach <em>selbst</em> umsetzen.</h1>
+      <p class="lead" id="hero-lead">Private Projekte aus meiner Freizeit, mal um ein Problem zu lösen, mal um
         ein Produkt zu bauen - einen Mail-Assistenten, ein Spiel, eine Firmen-Website. Was sie
         verbindet: mein Interesse an Nutzung, Anwendung und Grenzen agentischer KI.</p>
     </div>
@@ -278,17 +287,17 @@
 
   <section class="section alt" id="projects"><div class="wrap">
     <div class="reveal">
-      <div class="seclabel">Die Projekte</div>
-      <div class="secintro">Vom Dokumenten-Manager bis zum Browserspiel.</div>
-      <p class="secsub">Sechs Projekte in chronologischer Reihenfolge - jedes mit fachlichem
+      <div class="seclabel" id="sec-label-projects">Die Projekte</div>
+      <div class="secintro" id="sec-intro-projects">Vom Dokumenten-Manager bis zum Browserspiel.</div>
+      <p class="secsub" id="sec-sub-projects">Sechs Projekte in chronologischer Reihenfolge - jedes mit fachlichem
         Hintergrund, technischen Hard-Facts und Screenshots. Ein Klick öffnet die Detailseite.</p>
     </div>
     <div id="projects-list"></div>
   </div></section>
 
   <section class="section" id="about"><div class="wrap about-grid reveal">
-    <h2>Eine vielfältige Laufbahn, die in der <em>agentischen Produktlösung</em> aufgeht.</h2>
-    <div class="body">
+    <h2 id="about-h2">Eine vielfältige Laufbahn, die in der <em>agentischen Produktlösung</em> aufgeht.</h2>
+    <div class="body" id="about-body">
       <p>Mein Weg begann als Mediengestalter, später als Instructional Designer - immer begleitet
          von Testing, dabei Programmierung und JavaScript gelernt und Testautomatisierung
          vorangetrieben. Von dort aus ging es zunehmend in den technischen Bereich, Richtung
@@ -304,7 +313,7 @@
   <footer id="footer"><div class="wrap foot">
     <div>
       <div class="fm">Christian Skubatz</div>
-      <div class="fs">Agentic Projects - eine Auswahl privater Projekte.</div>
+      <div class="fs" id="footer-sub">Agentic Projects - eine Auswahl privater Projekte.</div>
     </div>
     <div class="fr">
       <div id="fcount"></div>
@@ -326,25 +335,25 @@
   <div class="wrap" id="d-panels"></div>
   <div class="section"><div class="wrap"><div class="dfoot">
     <div class="dback" onclick="goHome()">← Alle Projekte</div>
-    <div class="dquick"><span onclick="jumpTab(1)">Technik →</span><span onclick="jumpTab(2)">Screenshots →</span></div>
+    <div class="dquick"><span id="dquick-tech" onclick="jumpTab(1)">Technik →</span><span id="dquick-shots" onclick="jumpTab(2)">Screenshots →</span></div>
   </div></div></div>
 </article>
 
 <div class="lightbox" id="lightbox">
-  <button class="lb-close" onclick="closeLightbox()" aria-label="Schließen">✕</button>
-  <button class="lb-nav lb-prev" onclick="lbNav(-1)" aria-label="Vorheriges Bild">‹</button>
+  <button class="lb-close" id="lb-close-btn" onclick="closeLightbox()" aria-label="Schließen">✕</button>
+  <button class="lb-nav lb-prev" id="lb-prev-btn" onclick="lbNav(-1)" aria-label="Vorheriges Bild">‹</button>
   <div class="lb-viewport" id="lb-viewport"><img id="lb-img" src="" alt="" draggable="false"></div>
-  <button class="lb-nav lb-next" onclick="lbNav(1)" aria-label="Nächstes Bild">›</button>
+  <button class="lb-nav lb-next" id="lb-next-btn" onclick="lbNav(1)" aria-label="Nächstes Bild">›</button>
   <div class="lb-toolbar">
-    <button onclick="lbZoom(-0.5)">− Verkleinern</button>
-    <button onclick="lbReset()">Original</button>
-    <button onclick="lbZoom(0.5)">+ Vergrößern</button>
+    <button id="lb-zoomout-btn" onclick="lbZoom(-0.5)">− Verkleinern</button>
+    <button id="lb-original-btn" onclick="lbReset()">Original</button>
+    <button id="lb-zoomin-btn" onclick="lbZoom(0.5)">+ Vergrößern</button>
   </div>
   <div class="lb-cap" id="lb-cap"></div>
 </div>
 
 <script>
-const PROJECTS=[
+const PROJECTS_DE=[
 {
   slug:"oozcod", name:"OOZCOD - Document Zoo", typeLabel:"Web-App · KI-Pipeline", mono:"O",
   status:"Aktiv", accent:"#2E8C7E", monthShort:"Apr-Jun 2026", timeframe:"April - Juni 2026",
@@ -485,7 +494,7 @@ const PROJECTS=[
   tech:["Next.js 15 (App Router)","TypeScript","Prisma 7 + better-sqlite3-Adapter","next-intl (DE/EN)","Tailwind + shadcn/ui","argon2id","Vitest + Playwright"],
   fachlich:{
     idea:"MindLoop ist ein internes, userbasiertes Lerntool zur Prüfungsvorbereitung auf ISTQB-Zertifizierungen. Nutzer schreiben sich in einen Kurs ein und üben mit Karteikarten-Quizzes in drei Modi: entspanntes Durchlesen mit Lösungen, aktives Üben mit Sofort-Feedback und eine realistische Prüfungssimulation mit Timer. Fortschritts-Statistiken zeigen Stärken und Wissenslücken je Kapitel. Erster Kurs: CT-GenAI („Testen mit generativer KI\") - die Plattform ist kurs-agnostisch, weitere Kurse lassen sich über einen Content-Ordner einspeisen.",
-does:"Ein Invite-Link erzeugt den Account, danach Login per Passwort. Das Dashboard führt in drei Schritten zum Einstieg: Kurs einschreiben, Kurs öffnen, Lernmethode wählen. Im Kurskatalog schreibt man sich ein und sieht die Kapitelübersicht mit Fragenzahl je Kapitel. Zum Nachlesen gibt es je Kapitel eine Zusammenfassung als Wiki-Seite, die unten in ein Cheat Sheet und Merkhilfen (Akronyme, Eselsbrücken) mündet. Im Übungsmodus (Standard oder Mastery - falsch beantwortete Fragen kommen häufiger) gibt es sofortiges Feedback, im Prüfungsmodus zieht das System proportional Fragen über alle Kapitel, bewertet sie serverseitig und rechnet nach dem echten ISTQB-Punkteschema ab. Am Ende zeigt eine Statistik-Übersicht je Kapitel, wie stark oder schwach man steht - wahlweise über alle Fragen des Kapitels oder nur die bereits beantworteten.",
+    does:"Ein Invite-Link erzeugt den Account, danach Login per Passwort. Das Dashboard führt in drei Schritten zum Einstieg: Kurs einschreiben, Kurs öffnen, Lernmethode wählen. Im Kurskatalog schreibt man sich ein und sieht die Kapitelübersicht mit Fragenzahl je Kapitel. Zum Nachlesen gibt es je Kapitel eine Zusammenfassung als Wiki-Seite, die unten in ein Cheat Sheet und Merkhilfen (Akronyme, Eselsbrücken) mündet. Im Übungsmodus (Standard oder Mastery - falsch beantwortete Fragen kommen häufiger) gibt es sofortiges Feedback, im Prüfungsmodus zieht das System proportional Fragen über alle Kapitel, bewertet sie serverseitig und rechnet nach dem echten ISTQB-Punkteschema ab. Am Ende zeigt eine Statistik-Übersicht je Kapitel, wie stark oder schwach man steht - wahlweise über alle Fragen des Kapitels oder nur die bereits beantworteten.",
     features:["Drei Modi: entspanntes <b>Lernen</b>, aktives <b>Üben</b> (Standard/Mastery) mit Sofort-Feedback, realistische <b>Prüfungssimulation</b> mit Timer","<b>Kapitel-Zusammenfassungen zum Nachlesen</b>, inklusive Cheat Sheet und Merkhilfen (Akronyme, Eselsbrücken) je Kapitel","<b>150 geprüfte Fragen</b> über 5 Kapitel für den ersten Kurs (CT-GenAI)","Fortschritts-Statistik je Kapitel (stark/mittel/schwach/offen), umschaltbar zwischen allen und nur beantworteten Fragen","Serverseitige Bewertung im Prüfungsmodus - Antworten werden nie vorab an den Client geleakt","<b>Fragen-Feedback</b>: Nutzer können eine Frage als fehlerhaft melden (mit Kommentar)","Zweisprachige Oberfläche (DE/EN), Invite-basierte Registrierung, Passwort-Login mit argon2id"],
     special:{t:"Content-Pipeline mit Prüf-Nachweis",b:"Jede Kurs-Grundlage (ein offizieller Syllabus als PDF) wird seitenweise in ein Wiki verwandelt, mit einem deterministischen Seiten-Coverage-Beweis (100 % in Deutsch und Englisch). Erst danach entstehen daraus Fragen, gewichtet nach Unterrichtsminuten und an Lernzielen verankert - und jede Frage durchläuft eine eigene fachliche Prüfung, bevor sie live geht."},
     flow:"Ein Orchestrator ruft für Features und für Kursinhalte je eine eigene, feste Agenten-Kette auf: Features laufen über Requirements-Engineer → Full-Stack-Dev → Code-Reviewer → QA-Engineer, Kursinhalte über Content-Ingestor → Quizmaster → Question-Validator.",
@@ -503,6 +512,223 @@ does:"Ein Invite-Link erzeugt den Account, danach Login per Passwort. Das Dashbo
   impressionen:[{file:"dashboard.png",cap:"Dashboard - Einstieg in drei Schritten, meine Kurse"},{file:"kurs-uebersicht.png",cap:"Kursübersicht - drei Lernmodi und Kapitelliste"},{file:"lernmodus.png",cap:"Lernmodus - Frage mit sofort sichtbarer Lösung"},{file:"kapitelzusammenfassung.png",cap:"Kapitel-Zusammenfassung zum Nachlesen"},{file:"merkhilfen.png",cap:"Cheat Sheet und Merkhilfen am Kapitelende"},{file:"uebungsmodus-start.png",cap:"Übungsmodus - Standard oder Mastery wählen"},{file:"uebungsmodus-frage.png",cap:"Übungsmodus - Frage beantworten"},{file:"pruefung-start.png",cap:"Prüfungssimulation - Regeln und Start"},{file:"pruefung-frage.png",cap:"Prüfungssimulation mit Timer und Fragen-Navigator"},{file:"statistik.png",cap:"Statistik je Kapitel (stark/mittel/schwach/offen)"}]
 }
 ];
+
+const PROJECTS_EN=[
+{
+  slug:"oozcod", name:"OOZCOD - Document Zoo", typeLabel:"Web app · AI pipeline", mono:"O",
+  status:"Active", accent:"#2E8C7E", monthShort:"Apr-Jun 2026", timeframe:"April - June 2026",
+  tagline:"Private document management: paperwork is automatically read, summarized, and filed with OCR and AI - quickly searchable, queryable via chatbot, and compiled into a tax package when needed.",
+  heroline:"Automatically read, file, and find documents again.",
+  metrics:[{v:"15",l:"document categories"},{v:"DE / EN",l:"bilingual"},{v:"OCR + AI",l:"reads, sorts & interprets"},{v:"1 click",l:"tax package for the accountant"}],
+  tech:["Next.js + TypeScript","Prisma + PostgreSQL","Python FastAPI worker","Tesseract OCR","Claude / Anthropic SDK","next-intl (DE/EN)","Recharts","@react-pdf/renderer"],
+  fachlich:{
+    idea:"OOZCOD (\"Document Zoo\") is a private, locally run document management system for digitized family paperwork. Documents are automatically read and categorized by OCR and Claude, then filed through a controlled approval process. Tax preparation is really just a byproduct - the core idea is a digital filing system where documents can be found quickly, queried via chatbot, and compiled for tax purposes when needed. A built-in chatbot (\"Oozy\") answers questions about all documents, and an account checker analyzes annual bank statements. With this complete data foundation, pretty much any question about your own paperwork can be answered.",
+    does:"A document - whether scanned or downloaded as a PDF - lands in the inbox. The worker detects duplicates, extracts the text via OCR, and has Claude extract document type, date, people involved, institution, and a summary. The system then suggests a category, which I review, correct, and confirm in the approval step. Full-text search plus filtering by category, person, vehicle, or year make the archive searchable.",
+    features:["Automatic <b>OCR & AI analysis</b> - extracts key data (people, institutions, summary)","Controlled <b>approval & assignment process</b> - every document reviewed individually","<b>Automatic tax export</b>: invoices, insurance premiums and other tax-relevant receipts are assigned to categories, producing a ready tax package (ZIP + PDF) at year-end","<b>Account checker</b>: import and analyze annual bank statements","<b>\"Oozy\" chatbot</b> answers questions about all documents and statements","Duplicate detection, full-text search, bilingual interface (DE/EN)"],
+    special:{t:"Cost & privacy of AI analysis",b:"Every OCR/AI analysis runs through an API call to Claude - that costs real money, roughly 1-2 cents per document page. So I deliberately think about which documents are even worth scanning. In principle, a self-hosted local LLM could be connected to keep the data entirely in-house. Right now I use a cloud API instead, whose provider doesn't use the data for training - risk-wise comparable to a Gmail account or Google Drive."},
+    flow:"Not a multi-agent team, but one continuous processing pipeline: a Next.js frontend plus a Python worker that processes each document step by step and reports progress live to the UI.",
+    flowSteps:["PDF in inbox","Duplicate check","OCR (Tesseract)","AI analysis (Claude)","Category suggestion","Save","Your approval"],
+    agents:[], ais:[{n:"Claude",r:"Analysis & extraction per document"}]
+  },
+  technisch:[
+    {k:"Architecture",v:"Monorepo of a web app (Next.js) and a Python worker (FastAPI); PostgreSQL for data and full-text search"},
+    {k:"Frontend",v:"Next.js + TypeScript, next-intl (DE/EN), Recharts for budget/statistics charts, react-pdf, NextAuth, Prisma"},
+    {k:"Worker",v:"FastAPI, pytesseract (Tesseract, deu+eng), pdf2image/Pillow, Anthropic SDK, SQLAlchemy, folder watching"},
+    {k:"Data pipeline",v:"SHA-256 duplicate detection, asynchronous processing, live status updates to the UI"},
+    {k:"Quality",v:"27 automated tests for the processing worker (pytest)"},
+    {k:"Operations",v:"Runs locally via Docker. The AI analysis step is the only external call and could be switched to a locally run model."}
+  ],
+  impressionen:[{file:"dashboard.png",cap:"Dashboard - category overview"},{file:"freigabe-detail.png",cap:"Approval process - review document and assign metadata"},{file:"ocr-extraktion.png",cap:"Automatic OCR extraction with filing suggestion"},{file:"browser.png",cap:"Document browser with filtering by category/year"},{file:"steuermappe.png",cap:"Tax folder - overview by tax year"},{file:"steuerjahr-detail.png",cap:"Tax year detail - receipts by person or property"},{file:"kontochecker-uebersicht.png",cap:"Account checker - annual statements and transactions at a glance (figures redacted)"},{file:"kontochecker-transaktionen.png",cap:"Account checker - transaction list including categorization (figures redacted)"},{file:"oozy.png",cap:"Oozy chatbot: answers about the entire document base"}]
+},
+{
+  slug:"drachenspur", name:"Drachenspur", typeLabel:"Browser game", mono:"D",
+  status:"Active", accent:"#6E57B0", monthShort:"Apr-Jun 2026", timeframe:"April - June 2026",
+  tagline:"A browser-based dungeon crawler with dice-based combat and heroes modeled on my own family, for 1-3 players - based on the board game Karak, built for my son's sixth birthday.",
+  heroline:"A dungeon-crawler adventure for my son.",
+  metrics:[{v:"1-3",l:"players"},{v:"3D",l:"dice physics in combat"},{v:"Incl.",l:"save games & statistics"}],
+  tech:["PixiJS v8 (2D)","three.js + cannon-es (3D dice)","TypeScript (strict)","Vite 8","Howler.js (audio)","Zod","Vitest + Playwright","Supabase + Vercel"],
+  fachlich:{
+    idea:"Drachenspur is the digital version of our family's favorite board game, Karak. My son, my wife, and I often play Karak together - I wanted to build our own world where we are the heroes as a family, with our own backstory and hero abilities. Players take turns drawing dungeon tiles, explore together, defeat monsters in dice combat, and collect treasure before finally having to defeat the dragon.",
+    does:"A complete game for 1-3 players with character selection, dungeon exploration, 3D dice combat, persistent save games, statistics, and an extensive compendium. A logger records every game move - that feeds the statistics and means a session can be paused and resumed at any time: auto-saved on start and after every move.",
+    features:["Custom <b>heroes & world</b> with character selection - the game mechanics are based on Karak","Physically simulated <b>3D dice</b> in combat - every roll a real physics simulation","<b>Compendium</b> with 6 tabs: heroes, monsters, weapons, treasures, rules, world","Statistics per hero and monster, end screen with game stats","Save & resume possible at any time","<b>Theme bar</b>: the asset manager lets you design a completely new world"],
+    special:{t:"Theming via the asset manager",b:"A theme currently consists of 136 graphics and 83 audio files (sound effects, music, voice) - all swappable. An admin panel lets you create a whole new theme: based on predefined prompts, other AI tools generate the matching graphics and sounds, which can then be assembled into a completely new world. There are already ideas for a Teenage Mutant Ninja Turtles-themed world."},
+    flow:"First a plan was drawn up, then implementation ran through a team of specialized agents under given constraints - from the rulebook through design and assets to development, QA and review.",
+    flowSteps:["Plan & rulebook","Requirements","Design & art check","Asset prompts → art","Development","QA & autoplay bot","Code review"],
+    agents:["game-designer","requirements-engineer","designer","asset-coordinator","senior-dev","quality-engineer","code-reviewer"],
+    ais:[{n:"Claude Code",r:"Programming"},{n:"ChatGPT",r:"Artwork from asset manager prompts"},{n:"ElevenLabs",r:"Sound effects & background music"}]
+  },
+  technisch:[
+    {k:"Architecture",v:"UI-free engine (game state, combat, actions, inventory, randomness) cleanly separated from rendering; game content as JSON with schema validation (Zod)"},
+    {k:"Rendering",v:"PixiJS v8 for the 2D world; three.js + cannon-es for real 3D dice physics in combat"},
+    {k:"Autoplay bot",v:"A self-playing bot ran continuously through the dungeon to automatically find bugs (with stuck detection and logging)"},
+    {k:"Language/build",v:"TypeScript (strict), Vite 8"},
+    {k:"Persistence",v:"Save games in the browser (localStorage, current + archive); uploaded assets in IndexedDB; Supabase for accounts"},
+    {k:"Quality",v:"345 unit tests (Vitest) + 43 E2E tests (Playwright), code analysis, content validation"},
+    {k:"Deployment",v:"Vercel (Frankfurt), Supabase (EU) for accounts, Resend (EU) for email - the first complete deployment pipeline I built (reused for Maschinenverleih Skubatz)"}
+  ],
+  impressionen:[{file:"start.png",cap:"Start screen with main menu"},{file:"heldenportraet.png",cap:"Character selection - every hero has two special abilities"},{file:"abenteuer-beginnt.png",cap:"The adventure begins - down into the dungeon"},{file:"game.png",cap:"Dungeon exploration in top-down view"},{file:"sieg.png",cap:"Dice combat won (incl. breakdown of hero abilities, items, loot)"},{file:"compendium-monster.png",cap:"Compendium - monster overview"},{file:"compendium-held.png",cap:"Compendium - hero profile"},{file:"statistics.png",cap:"Statistics - overall and per-hero stats"},{file:"admin-grafik.png",cap:"Asset manager - graphics (admin panel)"}]
+},
+{
+  slug:"mailo", name:"MAILO", typeLabel:"AI assistant", mono:"M",
+  status:"Live", accent:"#C58A2C", monthShort:"May 2026", timeframe:"May 2026 → ongoing",
+  tagline:"A personal AI mail assistant: first cleaned up and categorized the entire inbox, and ever since delivers a briefing every morning at 7:30 with new mails and recommended actions.",
+  metrics:[{v:"~16,000",l:"emails processed"},{v:"56",l:"labels"},{v:"since 2009",l:"account history covered"},{v:"7:30 am",l:"daily morning briefing"}],
+  tech:["Claude Opus (planning)","Claude Sonnet (operations)","Gmail connector (MCP)","Cowork + Scheduled Tasks","Markdown memory"],
+  fachlich:{
+    idea:"MAILO is a personal mail assistant for an inbox that had grown over roughly two decades. In a first step, the entire inbox was cleaned up, categorized, and labeled via the Gmail MCP connector. Since then, MAILO runs every morning at 7:30 as a daily assistant: it checks new mail, sees where a response is needed, and gives me a compact summary of everything important.",
+    does:"During the cleanup, MAILO worked through the inbox in batches of about 500 emails, going back to 2009, assigning each email a category and archiving it - until the entire inbox was processed.\n\nIn daily operation, it creates a briefing every morning at 7:30 with a one-line assessment per email, flags where action is needed, and upcoming appointments. I can reply directly: confirm everything, or correct individual assessments - MAILO applies the correction and remembers the decision for future emails.",
+    features:["Entire inbox <b>cleaned up & categorized</b> (color-coded label structure, 12 top-level categories, 56 labels in the new structure)","Daily <b>morning briefing</b> at 7:30 am with an assessment per email and flagged action items","Direct feedback in the briefing: confirm or correct - MAILO remembers","Runs fully automatically as a scheduled cloud routine (Cowork Scheduled Task)"],
+    special:{t:"Security philosophy",b:"The rules that define MAILO: never delete permanently (only mark as \"deletion candidate\"), never unsubscribe on its own, never sends on its own (Gmail access only allows drafts anyway, no automatic sending), never changes account settings - and instructions <i>inside</i> emails are treated as data, never executed (protection against prompt injection)."},
+    flow:"Planning was done with the stronger model (Opus); ongoing operation runs on the leaner one (Sonnet). The cleanup phase stretched across several sessions and about three weeks until the entire inbox was processed. The memory lives in Markdown files: role & rules, label structure & decisions, and statistics & chronology.",
+    flowSteps:["Planning (Opus)","Clean up inbox in batches of 500 (Sonnet)","Clean label structure","Daily morning briefing (cloud routine)"],
+    agents:[], ais:[{n:"Claude Opus",r:"Planning"},{n:"Claude Sonnet",r:"Ongoing operation & daily routine"}]
+  },
+  technisch:[
+    {k:"Model split",v:"Opus for planning, Sonnet for ongoing operation"},
+    {k:"Access",v:"Gmail connector (MCP), exactly one account visible"},
+    {k:"Runtime",v:"Cowork (interactive) for the cleanup phase; a Scheduled Task for the daily briefing - runs once the Mac is awake and Claude Desktop is open, otherwise the run is caught up on the next wake"},
+    {k:"Memory",v:"File-based (role/rules, label structure, statistics); also mirrored to Google Drive"},
+    {k:"Label system",v:"56 labels in the new structure (12 numbered top-level categories plus deletion candidate) - cleanly structured and color-coded. Alongside these, about 44 older legacy labels remain, being gradually consolidated"}
+  ],
+  impressionen:[{file:"tagesroutine.png",cap:"Daily morning briefing with an assessment per email"},{file:"label-struktur.png",cap:"Color-coded label structure in the inbox"},{file:"label-baum.png",cap:"Full label structure"},{file:"meilensteine.png",cap:"Milestones - from inbox chaos to inbox zero"},{file:"tageszusammenfassungen.png",cap:"History of daily summaries"}]
+},
+{
+  slug:"maschinenverleih-skubatz", name:"Maschinenverleih Skubatz", typeLabel:"Web app", mono:"S",
+  status:"Active", accent:"#C5532B", monthShort:"Jun 2026", timeframe:"June 2026 → ongoing",
+  tagline:"Booking and management platform for my wife's and my sideline business, Werkzeug- & Maschinenverleih Skubatz (tool & machinery rental): online calendar, digital handover/return, and an AI research assistant for adding equipment.",
+  metrics:[{v:"Online",l:"booking & calendar"},{v:"Digital",l:"handover & return with photo/signature"},{v:"AI",l:"research assistant for adding equipment"}],
+  tech:["Next.js 15 (App Router)","React 19","TypeScript (strict)","Tailwind v4 + shadcn/ui","Supabase (EU-Frankfurt)","Vercel (Frankfurt)","Resend (EU)","Vitest + Playwright","pnpm monorepo"],
+  fachlich:{
+    idea:"A full-fledged website for my wife's and my sideline business, the tool & machinery rental. It consists of a public catalog with availability and booking, a customer area, and an admin area that covers the entire equipment lifecycle. Everything is mobile-optimized - the digital handover and return process can, for example, be carried on an iPad right at handover.",
+    does:"Customers browse the catalog, check availability in the calendar, pick a time range, and submit a booking request. We confirm or decline bookings (or suggest alternatives), document handover and return (including photo and signature) directly on mobile at the equipment, and manage the entire inventory - including a tax export of the relevant data.",
+    features:["<b>Booking system</b> with availability calendar and a clear booking flow","<b>Mobile-optimized</b>: digital handover & return process, usable on an iPad at handover","Admin lifecycle: create, release, hand over, take back, and service equipment","<b>AI research assistant</b> when adding equipment (see below)","Contract PDF with digital signature, automatic emails throughout the booking process","Customer area with self-service"],
+    special:{t:"AI research assistant for adding equipment",b:"With my own securely stored API key, I can trigger an AI research pass (Claude Sonnet) when adding a new item: from a manufacturer link and product name, it suggests a name, category, descriptions, search tags, and a price suggestion (based on typical rental prices) - which I review and confirm before anything is saved."},
+    flow:"Every feature goes through a fixed 9-step pipeline. An orchestrator steers the transitions, specialized agents each handle one step - including dedicated reviewers for privacy, legal, and search-engine discoverability.",
+    flowSteps:["Requirements","Spec review","Test-first (TDD)","Implementation","Code review","Privacy & legal","SEO","Final QA","Commit"],
+    agents:["orchestrator","requirements-engineer","researcher","senior-fullstack-dev","code-reviewer","dsgvo-agent","legal-reviewer","seo-agent","qa-engineer"],
+    ais:[{n:"Claude",r:"Development via the 9-agent team"}]
+  },
+  technisch:[
+    {k:"Architecture",v:"pnpm monorepo: web app, custom design system, shared schemas and the database layer as separate packages"},
+    {k:"Spec-driven",v:"101 structured feature specs with acceptance criteria, dependencies, and privacy markers"},
+    {k:"Stack",v:"Next.js 15 / React 19 / TypeScript, Tailwind v4 + shadcn/ui, Supabase (database, auth, storage, access rules)"},
+    {k:"Quality",v:"86 unit tests (Vitest) + 83 E2E tests (Playwright) incl. accessibility, performance checks, automatic secret scanning"},
+    {k:"Deployment",v:"Vercel (Frankfurt) + Supabase + Resend (EU) for emails - same pipeline as Drachenspur (see there)"},
+    {k:"Privacy",v:"Dedicated privacy and legal reviewer agents are a fixed part of the pipeline"},
+    {k:"Status",v:"In beta testing and ongoing equipment onboarding since June 2026, not yet fully live"}
+  ],
+  impressionen:[{file:"startseite.png",cap:"Homepage - tools & machinery for the weekend project"},{file:"geraet-detail.png",cap:"Equipment detail with availability"},{file:"verfuegbarkeit.png",cap:"Availability calendar - pick a time range"},{file:"vier-schritte.png",cap:"Four steps to your equipment"},{file:"mein-konto.png",cap:"Customer area - your bookings at a glance"},{file:"admin-dashboard.png",cap:"Admin dashboard - requests, utilization, bookings"},{file:"admin-buchungen.png",cap:"Admin - booking overview"},{file:"kalender-schliessfaecher.png",cap:"Manage calendar & closures"},{file:"admin-geraet-anlegen.png",cap:"Add new equipment with AI research assistant"},{file:"einstellungen.png",cap:"Settings"}]
+},
+{
+  slug:"net-obs", name:"NetObs", typeLabel:"Tool · Network monitoring", mono:"N",
+  status:"Active", accent:"#2D6CDF", monthShort:"Jun 2026", timeframe:"June 23-26, 2026",
+  tagline:"After switching to fiber, short network dropouts kept happening. This tool measures around the clock and shows whether the problem lies in the home Wi-Fi, the line to the provider, or the internet itself.",
+  heroline:"Measure, locate, and fix network problems.",
+  metrics:[{v:"FRITZ!Box",l:"API integration (TR-064)"},{v:"Live",l:"web dashboard"},{v:"HTML/PDF",l:"report export"},{v:"4",l:"measurement points"}],
+  tech:["Python 3.11+ (uv)","typer (CLI)","FastAPI + HTMX (dashboard)","Plotly.js (charts)","SQLite (WAL mode)","fritzconnection (TR-064)","icmplib + dnspython + httpx","WeasyPrint (PDF)","launchd (autostart)"],
+  fachlich:{
+    idea:"After switching to a 1&amp;1 fiber connection, short, opaque network dropouts kept occurring - web pages would hang for seconds, Teams calls stuttered, and support pointed to \"possible issues in the Telekom network.\" Instead of trusting hearsay, a tool should permanently track down <b>exactly where</b> the problem lies: in the home Wi-Fi, on the line, at peering, or in DNS resolution.",
+    does:"NetObs runs as a background daemon on the Mac, permanently measures four parallel measurement points (gateway, first ISP hop, several public targets, several DNS resolvers), detects anomalies via a sliding window, and automatically assigns a likely cause to each incident. A web dashboard shows everything live, and a report command produces a printable HTML/PDF document for escalating with the provider.",
+    features:["Four parallel <b>measurement points</b> (gateway / ISP hop / public targets / DNS) as the core of localization","Automatic <b>incident detection & classification</b> (LOCAL, ISP_LINE, ISP_BACKBONE, PEERING, DNS, IPV6_STACK, LOCAL_ROAMING …)","Live web dashboard (FastAPI + HTMX + Plotly.js) with latency charts, DNS comparison, and incident list","<b>FRITZ!Box integration</b> (TR-064): WAN status, throughput, mesh events, roaming - correlated with the probes","HTML/PDF reports with executive summary, intended for escalation to the ISP","macOS-native autostart (launchd) + email alert on incidents"],
+    special:{t:"From data set to solution",b:"The live download status in the dashboard revealed recurring load spikes on the network that slowed down other devices - for a long time it was unclear where they came from. The answer turned out to be an old FRITZ!Box setting: the PlayStation had been given real-time priority for smooth Remote Play - as soon as it downloaded something in the background while in standby, it noticeably disrupted the whole network. Now it's the other way round: the MacBooks have real-time priority, and meetings and work have run without issues ever since."},
+    flow:"An orchestrator agent coordinates progress via a file-based task tracker and delegates to five specialized agents - pure conception and review, no implementation by the orchestrator itself.",
+    flowSteps:["Setup & config","CLI + daemon","Probes (ping/DNS/HTTP)","FRITZ!Box integration","Detection + classification","Reporting (HTML/PDF)","Polish (IPv6, launchd, email)"],
+    agents:["orchestrator","requirements-engineer","fullstack-dev","code-reviewer","qa-engineer","security-reviewer"],
+    ais:[{n:"Claude Code",r:"Programming via the 6-agent team"}]
+  },
+  technisch:[
+    {k:"Architecture",v:"Three independent components on a shared SQLite database (WAL mode): background daemon (probes, detector, classifier), read-only web dashboard (127.0.0.1 only), and a one-off report command"},
+    {k:"Stack",v:"Python 3.11+ (uv), typer CLI, FastAPI + HTMX + Plotly.js for the dashboard, SQLite, fritzconnection (TR-064), WeasyPrint for PDF export"},
+    {k:"Quality",v:"123 unit tests (Pytest), Ruff linting, pip-audit dependency check as part of the quality gate (make qa)"},
+    {k:"Deployment",v:"Runs entirely locally on macOS, no cloud service, no telemetry. Optional autostart via launchd."},
+    {k:"Privacy",v:"FRITZ!Box access exclusively via a dedicated read-only user, never the admin account"}
+  ],
+  impressionen:[{file:"dashboard-latenz.png",cap:"Live dashboard - latency by category (gateway / ISP hop / public)"},{file:"dashboard-dns.png",cap:"DNS response times compared + incidents from the last 24 hours"},{file:"incidents.png",cap:"Incident list with automatic classification"},{file:"fritzbox.png",cap:"FRITZ!Box tab - WAN status, throughput, events"},{file:"report.png",cap:"PDF report with executive summary for ISP escalation"},{file:"config.png",cap:"Configuration of probe and detection thresholds"}]
+},
+{
+  slug:"mind-loop", name:"MindLoop", typeLabel:"Web app · Learning tool", mono:"L",
+  status:"Active", accent:"#1F6FCC", monthShort:"Jul 2026", timeframe:"July 2026",
+  tagline:"A learning tool for ISTQB certification prep: flashcard quizzes for relaxed studying, active practice, and a realistic, timed exam simulation.",
+  heroline:"Flashcard quiz for the ISTQB certificate.",
+  metrics:[{v:"150",l:"exam questions"},{v:"3",l:"study/practice/exam modes"},{v:"DE / EN",l:"bilingual"},{v:"5",l:"chapters"}],
+  tech:["Next.js 15 (App Router)","TypeScript","Prisma 7 + better-sqlite3 adapter","next-intl (DE/EN)","Tailwind + shadcn/ui","argon2id","Vitest + Playwright"],
+  fachlich:{
+    idea:"MindLoop is an internal, user-based learning tool for ISTQB certification prep. Users enroll in a course and practice with flashcard quizzes in three modes: relaxed reading with solutions, active practice with instant feedback, and a realistic exam simulation with a timer. Progress statistics show strengths and knowledge gaps per chapter. First course: CT-GenAI (\"Testing with Generative AI\") - the platform is course-agnostic, and further courses can be fed in via a content folder.",
+    does:"An invite link creates the account, then login by password. The dashboard guides you to get started in three steps: enroll in a course, open the course, choose a study method. In the course catalog you enroll and see a chapter overview with the question count per chapter. For reading, each chapter has a summary as a wiki page, ending in a cheat sheet and mnemonics (acronyms, memory aids). In practice mode (standard or mastery - incorrectly answered questions appear more often) there's instant feedback; in exam mode the system draws questions proportionally across all chapters, grades them server-side, and scores them using the real ISTQB point scheme. At the end, a statistics overview shows per chapter how strong or weak you are - either across all questions in the chapter or only the ones already answered.",
+    features:["Three modes: relaxed <b>studying</b>, active <b>practice</b> (standard/mastery) with instant feedback, realistic <b>exam simulation</b> with timer","<b>Chapter summaries for reading</b>, including a cheat sheet and mnemonics (acronyms, memory aids) per chapter","<b>150 vetted questions</b> across 5 chapters for the first course (CT-GenAI)","Progress statistics per chapter (strong/medium/weak/unanswered), toggle between all questions and answered only","Server-side grading in exam mode - answers are never leaked to the client in advance","<b>Question feedback</b>: users can flag a question as incorrect (with a comment)","Bilingual interface (DE/EN), invite-based registration, password login with argon2id"],
+    special:{t:"Content pipeline with proof of coverage",b:"Every course foundation (an official syllabus as a PDF) is turned page by page into a wiki, with a deterministic page-coverage proof (100% in German and English). Only then are questions generated from it, weighted by teaching minutes and anchored to learning objectives - and every question goes through its own subject-matter review before going live."},
+    flow:"An orchestrator calls a separate, fixed agent chain for features and for course content: features go through requirements-engineer → full-stack-dev → code-reviewer → QA-engineer, course content through content-ingestor → quizmaster → question-validator.",
+    flowSteps:["Syllabus PDF","Wiki with coverage proof","Question draft (quizmaster)","Subject-matter review (question-validator)"],
+    agents:["orchestrator","content-ingestor","quizmaster","question-validator","requirements-engineer","fullstack-dev","code-reviewer","qa-engineer"],
+    ais:[{n:"Claude Code",r:"Programming via agent team"}]
+  },
+  technisch:[
+    {k:"Architecture",v:"Next.js 15 (App Router, TypeScript) + Prisma 7 with better-sqlite3 adapter - no Rust query-engine binary needed at runtime, SQLite as the database"},
+    {k:"Auth",v:"Invite flow + password login (argon2id), sessions (hashed tokens), roles, CSRF protection (double-submit), rate limiting"},
+    {k:"Exam-mode security",v:"Server-authoritative grading and timer - exam answers never leave the server in advance"},
+    {k:"Content",v:"150 validated questions across 5 chapters, 100% page coverage in DE and EN"},
+    {k:"Quality",v:"about 49 Vitest unit tests plus a lean Playwright smoke test covering the full user flow"}
+  ],
+  impressionen:[{file:"dashboard.png",cap:"Dashboard - three-step start, my courses"},{file:"kurs-uebersicht.png",cap:"Course overview - three study modes and chapter list"},{file:"lernmodus.png",cap:"Study mode - question with the answer visible right away"},{file:"kapitelzusammenfassung.png",cap:"Chapter summary for reading"},{file:"merkhilfen.png",cap:"Cheat sheet and mnemonics at the end of a chapter"},{file:"uebungsmodus-start.png",cap:"Practice mode - choose standard or mastery"},{file:"uebungsmodus-frage.png",cap:"Practice mode - answering a question"},{file:"pruefung-start.png",cap:"Exam simulation - rules and start"},{file:"pruefung-frage.png",cap:"Exam simulation with timer and question navigator"},{file:"statistik.png",cap:"Statistics per chapter (strong/medium/weak/unanswered)"}]
+}
+];
+
+const UI={
+  de:{
+    navProjects:"Projekte", navContact:"Kontakt",
+    h1:'Ideen einfach <em>selbst</em> umsetzen.',
+    lead:"Private Projekte aus meiner Freizeit, mal um ein Problem zu lösen, mal um ein Produkt zu bauen - einen Mail-Assistenten, ein Spiel, eine Firmen-Website. Was sie verbindet: mein Interesse an Nutzung, Anwendung und Grenzen agentischer KI.",
+    projectsLabel:"Die Projekte",
+    projectsIntro:"Vom Dokumenten-Manager bis zum Browserspiel.",
+    projectsSub:"Sechs Projekte in chronologischer Reihenfolge - jedes mit fachlichem Hintergrund, technischen Hard-Facts und Screenshots. Ein Klick öffnet die Detailseite.",
+    aboutH2:'Eine vielfältige Laufbahn, die in der <em>agentischen Produktlösung</em> aufgeht.',
+    aboutBody:[
+      "Mein Weg begann als Mediengestalter, später als Instructional Designer - immer begleitet von Testing, dabei Programmierung und JavaScript gelernt und Testautomatisierung vorangetrieben. Von dort aus ging es zunehmend in den technischen Bereich, Richtung Quality Engineering und weitere Stationen rund um Software, Qualität und Produkt.",
+      "Aus dieser Kombination an Erfahrungen ist ein gutes Auge für Problemlösungen, Produktentwicklung, Technik, Qualität, Usability und Gestaltung zusammengewachsen. Agentisches Coding gibt mir jetzt die Möglichkeit, eigene Ideen und Produkte umzusetzen - als Proof of Concept oder als wirklich im Alltag eingesetztes Produkt.",
+      "Der Reiz liegt im Bauen, Ausprobieren, Feilen und Lernen an echten Problemlösungen."
+    ],
+    footerSub:"Agentic Projects - eine Auswahl privater Projekte.",
+    footerCount:n=>`${n} Projekte, Stand Juli 2026`,
+    viewProject:"Ansehen →",
+    backAll:"← Alle Projekte",
+    quickTech:"Technik →", quickShots:"Screenshots →",
+    tabNames:["Fachlich","Technik","Screenshots"],
+    ideaLabel:"Die Idee", doesLabel:"Was es tut", featuresLabel:"Kernfeatures",
+    techStackLabel:"Technologie-Stack", hardFactsLabel:"Hard Facts",
+    agenticFlowLabel:"Agentic Flow", agentsInvolvedLabel:"Beteiligte Agenten", aiInUseLabel:"KI im Einsatz",
+    lbClose:"Schließen", lbPrev:"Vorheriges Bild", lbNext:"Nächstes Bild",
+    lbZoomOut:"− Verkleinern", lbOriginal:"Original", lbZoomIn:"+ Vergrößern"
+  },
+  en:{
+    navProjects:"Projects", navContact:"Contact",
+    h1:'Turning ideas into reality - <em>myself</em>.',
+    lead:"Private projects from my free time - sometimes to solve a problem, sometimes to build a product: a mail assistant, a game, a company website. What connects them: my interest in using, applying, and pushing the limits of agentic AI.",
+    projectsLabel:"The Projects",
+    projectsIntro:"From document manager to browser game.",
+    projectsSub:"Six projects in chronological order - each with background, technical hard facts, and screenshots. Click to open the detail page.",
+    aboutH2:'A varied career path that comes together in <em>agentic product development</em>.',
+    aboutBody:[
+      "My path started as a media designer, later as an instructional designer - always alongside testing, where I learned programming and JavaScript and pushed test automation forward. From there I moved increasingly into the technical side, toward quality engineering and further roles around software, quality, and product.",
+      "Out of that combination of experience grew a good eye for problem-solving, product development, technology, quality, usability, and design. Agentic coding now gives me the ability to build my own ideas and products - whether as a proof of concept or as something genuinely used in everyday life.",
+      "The appeal lies in building, experimenting, refining, and learning through real problem-solving."
+    ],
+    footerSub:"Agentic Projects - a selection of private projects.",
+    footerCount:n=>`${n} projects, as of July 2026`,
+    viewProject:"View →",
+    backAll:"← All Projects",
+    quickTech:"Tech →", quickShots:"Screenshots →",
+    tabNames:["Overview","Tech","Screenshots"],
+    ideaLabel:"The Idea", doesLabel:"What It Does", featuresLabel:"Key Features",
+    techStackLabel:"Tech Stack", hardFactsLabel:"Hard Facts",
+    agenticFlowLabel:"Agentic Flow", agentsInvolvedLabel:"Agents Involved", aiInUseLabel:"AI in Use",
+    lbClose:"Close", lbPrev:"Previous image", lbNext:"Next image",
+    lbZoomOut:"− Zoom out", lbOriginal:"Original", lbZoomIn:"+ Zoom in"
+  }
+};
+
+let LANG=localStorage.getItem('lang')||'de';
+let PROJECTS=LANG==='de'?PROJECTS_DE:PROJECTS_EN;
+let CURRENT_SLUG=null;
 const ASSET_BASE="../assets/screenshots/";
 function rgb(hex){return [parseInt(hex.slice(1,3),16),parseInt(hex.slice(3,5),16),parseInt(hex.slice(5,7),16)];}
 function setVars(elm,hex){const[r,g,b]=rgb(hex);
@@ -530,7 +756,7 @@ function clickStage(){
   setTimeout(()=>row.classList.remove('flash'),1200);
 }
 function renderOverview(){
-  document.getElementById('fcount').textContent=PROJECTS.length+' Projekte, Stand Juli 2026';
+  document.getElementById('fcount').textContent=UI[LANG].footerCount(PROJECTS.length);
   // hero slideshow - echte Projekt-Screenshots (Mailo hat kein passendes Hero-Motiv, bleibt außen vor)
   // Drachenspur zuerst zeigen, Rest in der ursprünglichen Reihenfolge
   heroCycle=[PROJECTS.find(p=>p.slug==='drachenspur'),...PROJECTS.filter(p=>p.slug!=='mailo'&&p.slug!=='drachenspur')];
@@ -562,22 +788,22 @@ function renderOverview(){
         <div class="ptag">${p.tagline}</div>
         <div class="chips">${p.metrics.slice(0,3).map(m=>`<span>${m.v} ${m.l}</span>`).join('')}</div>
       </div>
-      <div class="thumb"><div class="mono">${p.mono}</div><img src="${shot}" alt="" onerror="this.remove()"><div class="arrow">Ansehen →</div></div>`;
+      <div class="thumb"><div class="mono">${p.mono}</div><img src="${shot}" alt="" onerror="this.remove()"><div class="arrow">${UI[LANG].viewProject}</div></div>`;
     row.onclick=()=>openDetail(i);
     list.appendChild(row);
   });
 }
 
 function flowHtml(f){
-  let h=`<h4>Agentic Flow</h4><p>${f.flow}</p>`;
+  let h=`<h4>${UI[LANG].agenticFlowLabel}</h4><p>${f.flow}</p>`;
   if(f.flowSteps&&f.flowSteps.length){
     h+=`<div class="flow">`+f.flowSteps.map((s,i)=>`<span class="step"><b>${i+1}</b>${s}</span>${i<f.flowSteps.length-1?'<span class="arr">→</span>':''}`).join('')+`</div>`;
   }
   if(f.agents&&f.agents.length){
-    h+=`<div class="sub">Beteiligte Agenten</div><div class="agents">`+f.agents.map(a=>`<span class="ag">${a}</span>`).join('')+`</div>`;
+    h+=`<div class="sub">${UI[LANG].agentsInvolvedLabel}</div><div class="agents">`+f.agents.map(a=>`<span class="ag">${a}</span>`).join('')+`</div>`;
   }
   if(f.ais&&f.ais.length){
-    h+=`<div class="sub">KI im Einsatz</div><div class="ais">`+f.ais.map(a=>`<div class="ai"><b>${a.n}</b> - ${a.r}</div>`).join('')+`</div>`;
+    h+=`<div class="sub">${UI[LANG].aiInUseLabel}</div><div class="ais">`+f.ais.map(a=>`<div class="ai"><b>${a.n}</b> - ${a.r}</div>`).join('')+`</div>`;
   }
   return h;
 }
@@ -648,6 +874,7 @@ document.addEventListener('keydown',(e)=>{
 });
 function openDetail(i){
   const p=PROJECTS[i];const d=document.getElementById('detail');setVars(d,p.accent);
+  CURRENT_SLUG=p.slug;
   document.getElementById('d-type').textContent=p.typeLabel+' · '+p.timeframe;
   document.getElementById('d-name').textContent=p.name;
   document.getElementById('d-tag').textContent=p.tagline;
@@ -660,16 +887,16 @@ function openDetail(i){
   LB_SHOTS=p.impressionen.map(s=>({src:ASSET_BASE+p.slug+'/'+s.file,cap:s.cap,mono:p.mono,file:s.file}));
   const f=p.fachlich;
   const fHtml=`<div class="col">
-    <h4>Die Idee</h4><p>${f.idea}</p>
-    <h4>Was es tut</h4><p>${f.does}</p>
-    <h4>Kernfeatures</h4><ul>${f.features.map(x=>`<li>${x}</li>`).join('')}</ul>
+    <h4>${UI[LANG].ideaLabel}</h4><p>${f.idea}</p>
+    <h4>${UI[LANG].doesLabel}</h4><p>${f.does}</p>
+    <h4>${UI[LANG].featuresLabel}</h4><ul>${f.features.map(x=>`<li>${x}</li>`).join('')}</ul>
     ${f.special?`<div class="special"><div class="st">${f.special.t}</div><p>${f.special.b}</p></div>`:''}
     ${flowHtml(f)}</div>`;
-  const tHtml=`<div class="col"><h4>Technologie-Stack</h4><div class="techgrid">${p.tech.map(t=>`<span>${t}</span>`).join('')}</div>
-    <h4>Hard Facts</h4><div class="trow">${p.technisch.map(r=>`<div class="ti2"><div class="k">${r.k}</div><div class="v">${r.v}</div></div>`).join('')}</div></div>`;
+  const tHtml=`<div class="col"><h4>${UI[LANG].techStackLabel}</h4><div class="techgrid">${p.tech.map(t=>`<span>${t}</span>`).join('')}</div>
+    <h4>${UI[LANG].hardFactsLabel}</h4><div class="trow">${p.technisch.map(r=>`<div class="ti2"><div class="k">${r.k}</div><div class="v">${r.v}</div></div>`).join('')}</div></div>`;
   const iHtml=`<div class="shots">${p.impressionen.map((s,k)=>`
       <div class="shotcard" onclick="openLightbox(${k})"><div class="simg"><img src="${ASSET_BASE+p.slug+'/'+s.file}" alt="${s.cap}" data-mono="${p.mono}" data-file="${s.file}" onerror="imgFail(this)"></div><div class="cap">${s.cap}</div></div>`).join('')}</div>`;
-  const tabs=[{n:"Fachlich",h:fHtml},{n:"Technik",h:tHtml},{n:"Screenshots",h:iHtml}];
+  const tabs=[{n:UI[LANG].tabNames[0],h:fHtml},{n:UI[LANG].tabNames[1],h:tHtml},{n:UI[LANG].tabNames[2],h:iHtml}];
   document.getElementById('d-tabs').innerHTML=tabs.map((t,k)=>`<div class="tab ${k===0?'on':''}" onclick="switchTab(${k})">${t.n}</div>`).join('');
   document.getElementById('d-panels').innerHTML=tabs.map((t,k)=>`<div class="panel ${k===0?'on':''}" id="panel-${k}">${t.h}</div>`).join('');
   document.getElementById('overview').style.display='none';d.style.display='block';window.scrollTo({top:0});
@@ -691,9 +918,48 @@ function goTo(id){
     document.getElementById('detail').style.display='none';document.getElementById('overview').style.display='block';}
   const t=document.getElementById(id);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
 }
+function updateStaticText(){
+  const t=UI[LANG];
+  document.getElementById('nav-projects').textContent=t.navProjects;
+  document.getElementById('nav-contact').textContent=t.navContact;
+  document.getElementById('hero-h1').innerHTML=t.h1;
+  document.getElementById('hero-lead').textContent=t.lead;
+  document.getElementById('sec-label-projects').textContent=t.projectsLabel;
+  document.getElementById('sec-intro-projects').textContent=t.projectsIntro;
+  document.getElementById('sec-sub-projects').textContent=t.projectsSub;
+  document.getElementById('about-h2').innerHTML=t.aboutH2;
+  document.getElementById('about-body').innerHTML=t.aboutBody.map(p=>`<p>${p}</p>`).join('');
+  document.getElementById('footer-sub').textContent=t.footerSub;
+  document.querySelectorAll('.dback').forEach(el=>el.textContent=t.backAll);
+  document.getElementById('dquick-tech').textContent=t.quickTech;
+  document.getElementById('dquick-shots').textContent=t.quickShots;
+  document.getElementById('lb-close-btn').setAttribute('aria-label',t.lbClose);
+  document.getElementById('lb-prev-btn').setAttribute('aria-label',t.lbPrev);
+  document.getElementById('lb-next-btn').setAttribute('aria-label',t.lbNext);
+  document.getElementById('lb-zoomout-btn').textContent=t.lbZoomOut;
+  document.getElementById('lb-original-btn').textContent=t.lbOriginal;
+  document.getElementById('lb-zoomin-btn').textContent=t.lbZoomIn;
+  document.querySelectorAll('.langswitch button').forEach(b=>b.classList.toggle('on',b.dataset.lang===LANG));
+}
+function setLang(lang){
+  if(lang===LANG)return;
+  LANG=lang;
+  localStorage.setItem('lang',LANG);
+  PROJECTS=LANG==='de'?PROJECTS_DE:PROJECTS_EN;
+  document.documentElement.lang=LANG;
+  updateStaticText();
+  if(document.getElementById('detail').style.display==='block'){
+    const idx=PROJECTS.findIndex(p=>p.slug===CURRENT_SLUG);
+    openDetail(idx>=0?idx:0);
+  }else{
+    renderOverview();
+  }
+}
 const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>24));
 const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.documentElement.lang=LANG;
+updateStaticText();
 renderOverview();
 document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
 </script>
