@@ -6,15 +6,15 @@
 <title>Christian Skubatz - Agentic Projects</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     color-scheme:dark;
-    --bg:#07070D; --bg-alt:#100E1A; --panel:#18151F;
-    --ink:#F4F3F8; --ink-soft:#C7C3D6; --muted:#9A96AE; --faint:#5C5870;
-    --line:rgba(244,243,248,.14); --line-soft:rgba(244,243,248,.07);
+    --bg:#121019; --bg-alt:#1C1926; --panel:#262230;
+    --ink:#ECE8F2; --ink-soft:#C7C3D6; --muted:#9A96AE; --faint:#6B677F;
+    --line:rgba(244,243,248,.20); --line-soft:rgba(244,243,248,.10);
     --accent:#8B7CF6; --accent-soft:#332B5C;
-    --serif:'Fraunces',ui-serif,'New York',Georgia,'Times New Roman',serif;
+    --serif:'Space Grotesk',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
     --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
     --maxw:1140px;
   }
@@ -28,7 +28,7 @@
 
   nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .35s,border-color .35s;
     border-bottom:1px solid transparent}
-  nav.solid{background:rgba(7,7,13,.86);backdrop-filter:saturate(160%) blur(12px);
+  nav.solid{background:rgba(18,16,25,.88);backdrop-filter:saturate(160%) blur(12px);
     border-bottom:1px solid var(--line-soft)}
   nav .inner{max-width:var(--maxw);margin:0 auto;padding:17px 40px;display:flex;align-items:center;
     justify-content:space-between}
@@ -56,7 +56,7 @@
   .hero .herotext{max-width:420px}
   .eyebrow{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
     font-weight:500;margin-bottom:24px}
-  .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.2vw,54px);line-height:1.08;
+  .hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.2vw,54px);line-height:1.08;
     letter-spacing:-.02em}
   .hero h1 em{font-style:italic;color:var(--accent)}
   .hero .lead{margin-top:22px;font-size:17.5px;line-height:1.6;color:var(--ink-soft)}
@@ -139,9 +139,9 @@
   .dquick{display:flex;gap:22px}
   .dquick span{cursor:pointer;color:var(--ink-soft);font-size:14.5px;transition:color .2s}
   .dquick span:hover{color:var(--pac)}
-  .dhero .dtype{font-size:12.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--pac-deep);
-    font-weight:500;margin-bottom:16px}
-  .dhero h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,6vw,70px);line-height:1.03;
+  .dhero .dtype{font-size:13.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--pac-deep);
+    font-weight:600;margin-bottom:16px}
+  .dhero h2{font-family:var(--serif);font-weight:500;font-size:clamp(38px,6vw,70px);line-height:1.03;
     letter-spacing:-.02em}
   .dhero .dtag{margin-top:20px;font-size:19.5px;color:var(--ink-soft);max-width:64ch;line-height:1.55}
   .metrics{display:flex;flex-wrap:wrap;gap:40px;margin-top:38px;border-top:1px solid var(--line);
@@ -155,7 +155,7 @@
   .heroshots img{width:100%;height:100%;object-fit:cover;display:block}
   @media(max-width:820px){.heroshots{height:260px}}
 
-  .tabs{position:sticky;top:0;z-index:20;background:rgba(7,7,13,.88);backdrop-filter:blur(10px);
+  .tabs{position:sticky;top:0;z-index:20;background:rgba(18,16,25,.9);backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line)}
   .tabs .inner{max-width:var(--maxw);margin:0 auto;padding:0 40px;display:flex;gap:36px}
   .tab{padding:19px 0 16px;font-size:16px;color:var(--muted);cursor:pointer;font-weight:500;
@@ -165,8 +165,8 @@
   .panel{display:none;padding:56px 0 20px;animation:fade .4s ease}.panel.on{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .col{max-width:770px}
-  .panel h4{font-family:var(--serif);font-size:13px;color:var(--pac-deep);font-weight:600;
-    margin:40px 0 13px;text-transform:uppercase;letter-spacing:.13em}
+  .panel h4{font-family:var(--serif);font-size:14.5px;color:var(--pac-deep);font-weight:600;
+    margin:40px 0 13px;text-transform:uppercase;letter-spacing:.11em}
   .panel h4:first-child{margin-top:0}
   .panel p{color:var(--ink-soft);font-size:17.5px;line-height:1.75;margin-bottom:15px}
   .panel p b,.panel li b{color:var(--ink);font-weight:500}.panel i{font-style:italic}
@@ -175,7 +175,7 @@
   .panel li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;
     border-radius:50%;background:var(--pac)}
   .special{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--pac);
-    border-radius:8px;padding:22px 25px;margin:8px 0 20px}
+    border-radius:8px;padding:22px 25px;margin:32px 0 24px}
   .special .st{font-family:var(--serif);font-weight:500;font-size:18.5px;margin-bottom:8px}
   .special p{margin:0;font-size:16.5px;color:var(--ink-soft)}
   .sub{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:500;
@@ -758,7 +758,7 @@ function rgb(hex){return [parseInt(hex.slice(1,3),16),parseInt(hex.slice(3,5),16
 function setVars(elm,hex){const[r,g,b]=rgb(hex);
   elm.style.setProperty('--pac',hex);
   elm.style.setProperty('--pac-tint',`rgba(${r},${g},${b},.07)`);
-  elm.style.setProperty('--pac-deep',`rgb(${Math.round(r*.7)},${Math.round(g*.7)},${Math.round(b*.7)})`);
+  elm.style.setProperty('--pac-deep',`rgb(${Math.round(r+(255-r)*.4)},${Math.round(g+(255-g)*.4)},${Math.round(b+(255-b)*.4)})`);
   elm.style.setProperty('--pac-grad',`linear-gradient(135deg,rgb(${r},${g},${b}),rgb(${Math.round(r*.66)},${Math.round(g*.66)},${Math.round(b*.66)}))`);
   elm.style.setProperty('--pac-grad-soft',`linear-gradient(135deg,rgba(${r},${g},${b},.1),rgba(${r},${g},${b},.02))`);
 }
