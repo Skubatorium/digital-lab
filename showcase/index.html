@@ -289,7 +289,7 @@
     <div class="reveal">
       <div class="seclabel" id="sec-label-projects">Die Projekte</div>
       <div class="secintro" id="sec-intro-projects">Vom Dokumenten-Manager bis zum Browserspiel.</div>
-      <p class="secsub" id="sec-sub-projects">Sechs Projekte in chronologischer Reihenfolge - jedes mit fachlichem
+      <p class="secsub" id="sec-sub-projects">Sieben Projekte in chronologischer Reihenfolge - jedes mit fachlichem
         Hintergrund, technischen Hard-Facts und Screenshots. Ein Klick öffnet die Detailseite.</p>
     </div>
     <div id="projects-list"></div>
@@ -510,6 +510,33 @@ const PROJECTS_DE=[
     {k:"Qualität",v:"rund 49 Vitest-Unit-Tests plus ein schlanker Playwright-Smoke-Test über den kompletten Nutzerfluss"}
   ],
   impressionen:[{file:"dashboard.png",cap:"Dashboard - Einstieg in drei Schritten, meine Kurse"},{file:"kurs-uebersicht.png",cap:"Kursübersicht - drei Lernmodi und Kapitelliste"},{file:"lernmodus.png",cap:"Lernmodus - Frage mit sofort sichtbarer Lösung"},{file:"kapitelzusammenfassung.png",cap:"Kapitel-Zusammenfassung zum Nachlesen"},{file:"merkhilfen.png",cap:"Cheat Sheet und Merkhilfen am Kapitelende"},{file:"uebungsmodus-start.png",cap:"Übungsmodus - Standard oder Mastery wählen"},{file:"uebungsmodus-frage.png",cap:"Übungsmodus - Frage beantworten"},{file:"pruefung-start.png",cap:"Prüfungssimulation - Regeln und Start"},{file:"pruefung-frage.png",cap:"Prüfungssimulation mit Timer und Fragen-Navigator"},{file:"statistik.png",cap:"Statistik je Kapitel (stark/mittel/schwach/offen)"}]
+},
+{
+  slug:"frame-forge", name:"FrameForge", typeLabel:"Tool · Videoschnitt-Pipeline", mono:"F",
+  status:"Aktiv", accent:"#C1443C", monthShort:"Jul-Aug 2026", timeframe:"Juli - August 2026",
+  tagline:"Orchestrierte, reproduzierbare Videoschnitt-Pipeline für Reisefilme: Claude Code analysiert das Rohmaterial, schneidet auf die Musik, setzt automatische Bauchbinden und rendert reproduzierbar bis 4K - über eine erzwungene Prozesskette mit neun spezialisierten Agenten.",
+  heroline:"Rohes Filmmaterial, automatisch zum fertigen Reisefilm geschnitten.",
+  metrics:[{v:"9",l:"spezialisierte Sub-Agenten"},{v:"11",l:"Phasen in der State-Machine"},{v:"12",l:"Schnitt-Stil-Presets"},{v:"4K",l:"reproduzierbarer Final-Render"},{v:"540",l:"automatisierte Tests"}],
+  tech:["Python 3.12 (uv)","FFmpeg / ffprobe (nie direkt, nur über frameforge.render)","Claude Code (Orchestrator + 9 Sub-Agenten)","OpenCV-CV-Metriken (Schärfe, Stabilität, Szenen)","Cairo (SVG-Text-Overlays)","exiftool","pytest + ruff"],
+  fachlich:{
+    idea:"FrameForge ist eine orchestrierte Videoschnitt-Pipeline für Reise- und Projektfilme. Claude Code arbeitet hier als <b>Orchestrator, nicht als Editor</b>: er delegiert an neun spezialisierte Sub-Agenten, die eigentliche Verarbeitung übernehmen Python, FFmpeg und lokale CV-/Audio-Bibliotheken. Grundidee ist die Trennung von Projekt und Export: Ein Projekt ist das Rohmaterial samt Index und Designsystem (z. B. „norwegen-2026\"), ein Export ist ein konkretes Produkt daraus - Teaser, Hauptfilm, Themenfassung. Ein Projekt trägt beliebig viele Exporte, ohne das Material je erneut zu sichten. Erste vollständige Anwendung war die Reise Norwegen 2026: aus rund 1.180 gesichteten Video- und Fotoaufnahmen entstanden zwei fertige Filme (Roadtrip Edition, Drone Edition) sowie die private Website, auf der beide veröffentlicht sind.",
+    does:"Der Ablauf ist eine erzwungene Reihenfolge - eine State-Machine mit 11 Phasen von INIT bis RENDERED, die kein Schritt überspringen kann (ein Hook blockt das auch bei direkten Bash-Aufrufen). Nach dem Ingest (Scan + Proxy-Erzeugung) sichtet der media-indexer-Agent Keyframes jedes Clips und schreibt Beschreibung, Tags und Rating. Der design-system-Agent legt Farbe, Typo und Motion als Designsystem fest, aus dem automatisch alle Text-Overlays entstehen (Titel, Bauchbinde, Kapitelkarte, Credits). Für einen Export beschreibt ein Brief Stil-Preset, Ziellänge sowie Pflicht- und verbotene Shots; story-architect baut daraus ein dramaturgisches Beat-Sheet, timeline-builder übersetzt es in eine timeline.json - die Single Source of Truth für Render und NLE-Export. audio-designer wählt Musik und Ducking-Kurven, map-animator baut Kartenclips aus GPX-Tracks. Ein qc-reviewer prüft die Timeline gegen den Brief, bevor ein Proxy-Preview entsteht; erst nach expliziter Freigabe rendert render-engineer den finalen, farbkorrigierten 4K-Export.",
+    features:["Automatische <b>Material-Analyse</b> - Schärfe, Stabilität, Belichtung und Szenenerkennung per CV, dazu eine KI-Beschreibung inklusive Tags und Rating je Clip","<b>Schnitt auf die Musik</b>: der audio-designer synchronisiert Beats und Energiekurve mit der Timeline und regelt O-Ton per Ducking automatisch ab","<b>Automatische Bauchbinden &amp; Text-Overlays</b> (Titel, Kapitelkarten, Credits) - generiert aus dem Designsystem, nicht von Hand gestaltet","<b>Color-Grading &amp; 4K-Render</b>: reproduzierbar aus timeline.json, EBU-R128-Loudness-Normalisierung, versionierte Ausgabe, die nie überschrieben wird","12 Schnitt-Stil-Presets (u. a. Nordic Cinematic, Punch Teaser, Diary/Handheld) und 9 Design-Themes als Startpunkt","Kartenanimationen aus GPX-Tracks, optionale Gesichtserkennung (Opt-in), FCPXML-/OTIO-Export für DaVinci Resolve/Final Cut"],
+    special:{t:"Token-Disziplin: einmal analysieren, nie vergessen",b:"Das Rohmaterial umfasst rund 100 GB - ohne Disziplin würde jeder neue Schnittversuch die komplette Analyse wiederholen. Jede Datei wird per Hash (SHA-256 aus erstem MB, Größe, Änderungsdatum) genau einmal an ein Vision-Modell geschickt; ist der Eintrag einmal in assets.json, bleibt er es. Vision läuft nur auf Keyframes (3 pro Clip bei 10/50/85 %, 768 px, JPEG q80, Fotos nur 1 Frame), nie auf ganzen Verzeichnissen - Abfragen laufen über frameforge query mit Filtern, statt hunderte Dateien ins Kontextfenster zu laden. Previews rendern auf 1080p-Proxies, erst der Final-Render mappt automatisch auf die 4K-Originale."},
+    flow:"Claude Code ist reiner Orchestrator, nicht Editor: er entscheidet, delegiert an die passenden Sub-Agenten und prüft Ergebnisse - FFmpeg-Aufrufe von Hand sind per Hook blockiert. Kreative Schritte (Material beschreiben, Designsystem, Story→Timeline) laufen über Claude und die Sub-Agenten, deterministische Schritte (Ingest, Preview, Render, NLE-Export) direkt über die frameforge-CLI. Ein /ff-wizard führt Schritt für Schritt durch die komplette Pipeline und merkt sich jederzeit unterbrechbar den Stand.",
+    flowSteps:["Ingest (Scan + Proxies)","Index (CV + Vision)","Designsystem","Brief (Stil, Länge)","Story → Timeline","Preview & QC","Freigabe","Render (4K)"],
+    agents:["media-indexer","design-system","story-architect","timeline-builder","audio-designer","map-animator","qc-reviewer","render-engineer","route-planner"],
+    ais:[{n:"Claude Code",r:"Orchestrator + 9 Sub-Agenten (Opus für story-architect & qc-reviewer, Sonnet für den Rest)"}]
+  },
+  technisch:[
+    {k:"Architektur",v:"CLI-Werkzeugschicht (frameforge/) + Claude-Code-Sub-Agenten (.claude/agents/) + Slash-Commands (/ff-*); ein Gate-Hook (.claude/hooks/gate.py) erzwingt die 11-Phasen-State-Machine auch bei direkten Bash-Aufrufen"},
+    {k:"Projekt vs. Export",v:"Rohmaterial liegt extern (media_root in project.yaml, Repo bleibt klein); ein Projekt (Material + Index + Designsystem) trägt beliebig viele Exporte, ohne erneuten Ingest/Index/Design"},
+    {k:"Reproduzierbarkeit",v:"timeline.json ist Single Source of Truth für Render und FCPXML-/OTIO-Export; die Freigabe bindet an den exakten Timeline-Stand - jede Änderung danach verlangt erneutes Preview + Approve"},
+    {k:"Caching",v:"Hash-basierte Analyse (SHA-256 aus erstem MB + Größe + mtime), Keyframe-only Vision-Calls, Musik-Analyse (BPM/Energie) gecacht - kein Asset wird zweimal an ein Modell geschickt"},
+    {k:"Qualität",v:"540 Testfunktionen über 30 Testdateien (pytest), Ruff-Linting, frameforge doctor prüft ffmpeg/ffprobe/exiftool/libcairo/Python-Version vor jedem Pipeline-Schritt"},
+    {k:"Betrieb",v:"läuft vollständig lokal (macOS/Homebrew: ffmpeg, exiftool, cairo), kein Cloud-Dienst; entstanden zwischen dem ersten Prototyp Ende Juli und dem aktuellen Stand Mitte August 2026"}
+  ],
+  impressionen:[{file:"website-startseite.png",cap:"Ein Produkt aus der Pipeline - die private Reise-Website „Norwegen 2026\" (FrameForge selbst hat keine grafische Oberfläche, läuft über Claude Code und die CLI)"},{file:"website-roadtrip-edition.png",cap:"Roadtrip Edition - 18 Tage chronologisch geschnitten, 167 von 1.181 gesichteten Aufnahmen"},{file:"website-drone-edition.png",cap:"Drone Edition - reiner Drohnenfilm ohne Text und Kommentar, nur die Landschaft"},{file:"poster-roadtrip-edition.jpg",cap:"Poster-Frame der Roadtrip Edition (18:00 min)"},{file:"poster-drone-edition.jpg",cap:"Poster-Frame der Drone Edition (9:28 min)"}]
 }
 ];
 
@@ -670,6 +697,33 @@ const PROJECTS_EN=[
     {k:"Quality",v:"about 49 Vitest unit tests plus a lean Playwright smoke test covering the full user flow"}
   ],
   impressionen:[{file:"dashboard.png",cap:"Dashboard - three-step start, my courses"},{file:"kurs-uebersicht.png",cap:"Course overview - three study modes and chapter list"},{file:"lernmodus.png",cap:"Study mode - question with the answer visible right away"},{file:"kapitelzusammenfassung.png",cap:"Chapter summary for reading"},{file:"merkhilfen.png",cap:"Cheat sheet and mnemonics at the end of a chapter"},{file:"uebungsmodus-start.png",cap:"Practice mode - choose standard or mastery"},{file:"uebungsmodus-frage.png",cap:"Practice mode - answering a question"},{file:"pruefung-start.png",cap:"Exam simulation - rules and start"},{file:"pruefung-frage.png",cap:"Exam simulation with timer and question navigator"},{file:"statistik.png",cap:"Statistics per chapter (strong/medium/weak/unanswered)"}]
+},
+{
+  slug:"frame-forge", name:"FrameForge", typeLabel:"Tool · Video editing pipeline", mono:"F",
+  status:"Active", accent:"#C1443C", monthShort:"Jul-Aug 2026", timeframe:"July - August 2026",
+  tagline:"An orchestrated, reproducible video-editing pipeline for travel films: Claude Code analyzes the raw footage, cuts to the music, adds automatic lower thirds, and renders reproducibly up to 4K - through an enforced process chain with nine specialized agents.",
+  heroline:"Raw footage, automatically cut into a finished travel film.",
+  metrics:[{v:"9",l:"specialized sub-agents"},{v:"11",l:"phases in the state machine"},{v:"12",l:"editing style presets"},{v:"4K",l:"reproducible final render"},{v:"540",l:"automated tests"}],
+  tech:["Python 3.12 (uv)","FFmpeg / ffprobe (never called directly, only via frameforge.render)","Claude Code (orchestrator + 9 sub-agents)","OpenCV CV metrics (sharpness, stability, scenes)","Cairo (SVG text overlays)","exiftool","pytest + ruff"],
+  fachlich:{
+    idea:"FrameForge is an orchestrated video-editing pipeline for travel and project films. Claude Code works here as an <b>orchestrator, not an editor</b>: it delegates to nine specialized sub-agents, while the actual processing is handled by Python, FFmpeg, and local CV/audio libraries. The core idea is separating project from export: a project is the raw footage plus its index and design system (e.g. \"norwegen-2026\"), an export is a concrete product made from it - teaser, main film, themed cut. One project can carry any number of exports without ever re-scanning the material. The first complete use case was the Norway 2026 trip: from around 1,180 reviewed video and photo shots came two finished films (Roadtrip Edition, Drone Edition) plus the private website where both are published.",
+    does:"The process is an enforced sequence - an 11-phase state machine from INIT to RENDERED that no step can skip (a hook blocks it even on direct bash calls). After ingest (scan + proxy generation), the media-indexer agent reviews each clip's keyframes and writes a description, tags, and rating. The design-system agent sets color, type, and motion as a design system, from which all text overlays are generated automatically (titles, lower thirds, chapter cards, credits). For an export, a brief describes the style preset, target length, and required/forbidden shots; story-architect builds a dramatic beat sheet from it, and timeline-builder translates that into a timeline.json - the single source of truth for rendering and NLE export. audio-designer picks music and ducking curves, map-animator builds map clips from GPX tracks. A qc-reviewer checks the timeline against the brief before a proxy preview is built; only after explicit approval does render-engineer render the final, color-graded 4K export.",
+    features:["Automatic <b>footage analysis</b> - sharpness, stability, exposure and scene detection via CV, plus an AI description with tags and rating per clip","<b>Cutting to the music</b>: the audio-designer syncs beats and energy curve to the timeline and automatically ducks ambient sound","<b>Automatic lower thirds &amp; text overlays</b> (titles, chapter cards, credits) - generated from the design system, never hand-designed","<b>Color grading &amp; 4K render</b>: reproducible from timeline.json, EBU R128 loudness normalization, versioned output that's never overwritten","12 editing style presets (incl. Nordic Cinematic, Punch Teaser, Diary/Handheld) and 9 design themes as a starting point","Map animations from GPX tracks, optional face recognition (opt-in), FCPXML/OTIO export for DaVinci Resolve/Final Cut"],
+    special:{t:"Token discipline: analyze once, never forget",b:"The raw footage runs to about 100 GB - without discipline, every new editing attempt would repeat the entire analysis. Every file is sent to a vision model exactly once, keyed by a hash (SHA-256 of the first MB, size, and mtime); once the entry exists in assets.json, it stays there. Vision only ever looks at keyframes (3 per clip at 10/50/85%, 768px, JPEG q80, photos just 1 frame), never at whole directories - queries go through frameforge query with filters instead of loading hundreds of files into the context window. Previews render on 1080p proxies; only the final render maps automatically onto the 4K originals."},
+    flow:"Claude Code is a pure orchestrator, not an editor: it decides, delegates to the right sub-agents, and checks results - manual FFmpeg calls are blocked by a hook. Creative steps (describing material, design system, story→timeline) run through Claude and the sub-agents, deterministic steps (ingest, preview, render, NLE export) run directly through the frameforge CLI. A /ff-wizard walks through the entire pipeline step by step and keeps track of progress, interruptible at any time.",
+    flowSteps:["Ingest (scan + proxies)","Index (CV + vision)","Design system","Brief (style, length)","Story → timeline","Preview & QC","Approval","Render (4K)"],
+    agents:["media-indexer","design-system","story-architect","timeline-builder","audio-designer","map-animator","qc-reviewer","render-engineer","route-planner"],
+    ais:[{n:"Claude Code",r:"Orchestrator + 9 sub-agents (Opus for story-architect & qc-reviewer, Sonnet for the rest)"}]
+  },
+  technisch:[
+    {k:"Architecture",v:"CLI tool layer (frameforge/) + Claude Code sub-agents (.claude/agents/) + slash commands (/ff-*); a gate hook (.claude/hooks/gate.py) enforces the 11-phase state machine even on direct bash calls"},
+    {k:"Project vs. export",v:"Raw footage lives externally (media_root in project.yaml, keeping the repo small); one project (footage + index + design system) carries any number of exports without re-running ingest/index/design"},
+    {k:"Reproducibility",v:"timeline.json is the single source of truth for rendering and FCPXML/OTIO export; approval binds to the exact timeline state - any change afterward requires a new preview + approve"},
+    {k:"Caching",v:"Hash-based analysis (SHA-256 of first MB + size + mtime), keyframe-only vision calls, cached music analysis (BPM/energy) - no asset is ever sent to a model twice"},
+    {k:"Quality",v:"540 test functions across 30 test files (pytest), Ruff linting, frameforge doctor checks ffmpeg/ffprobe/exiftool/libcairo/Python version before every pipeline step"},
+    {k:"Operations",v:"runs entirely locally (macOS/Homebrew: ffmpeg, exiftool, cairo), no cloud service; built between the first prototype in late July and the current state in mid-August 2026"}
+  ],
+  impressionen:[{file:"website-startseite.png",cap:"A product of the pipeline - the private travel website \"Norway 2026\" (FrameForge itself has no graphical interface, it runs through Claude Code and the CLI)"},{file:"website-roadtrip-edition.png",cap:"Roadtrip Edition - 18 days cut chronologically, 167 of 1,181 reviewed shots"},{file:"website-drone-edition.png",cap:"Drone Edition - a pure drone film with no text or narration, just the landscape"},{file:"poster-roadtrip-edition.jpg",cap:"Poster frame of the Roadtrip Edition (18:00 min)"},{file:"poster-drone-edition.jpg",cap:"Poster frame of the Drone Edition (9:28 min)"}]
 }
 ];
 
@@ -680,7 +734,7 @@ const UI={
     lead:"Private Projekte aus meiner Freizeit, mal um ein Problem zu lösen, mal um ein Produkt zu bauen - einen Mail-Assistenten, ein Spiel, eine Firmen-Website. Was sie verbindet: mein Interesse an Nutzung, Anwendung und Grenzen agentischer KI.",
     projectsLabel:"Die Projekte",
     projectsIntro:"Vom Dokumenten-Manager bis zum Browserspiel.",
-    projectsSub:"Sechs Projekte in chronologischer Reihenfolge - jedes mit fachlichem Hintergrund, technischen Hard-Facts und Screenshots. Ein Klick öffnet die Detailseite.",
+    projectsSub:"Sieben Projekte in chronologischer Reihenfolge - jedes mit fachlichem Hintergrund, technischen Hard-Facts und Screenshots. Ein Klick öffnet die Detailseite.",
     aboutH2:'Eine vielfältige Laufbahn, die in der <em>agentischen Produktlösung</em> aufgeht.',
     aboutBody:[
       "Mein Weg begann als Mediengestalter, später als Instructional Designer - immer begleitet von Testing, dabei Programmierung und JavaScript gelernt und Testautomatisierung vorangetrieben. Von dort aus ging es zunehmend in den technischen Bereich, Richtung Quality Engineering und weitere Stationen rund um Software, Qualität und Produkt.",
@@ -688,7 +742,7 @@ const UI={
       "Der Reiz liegt im Bauen, Ausprobieren, Feilen und Lernen an echten Problemlösungen."
     ],
     footerSub:"Agentic Projects - eine Auswahl privater Projekte.",
-    footerCount:n=>`${n} Projekte, Stand Juli 2026`,
+    footerCount:n=>`${n} Projekte, Stand August 2026`,
     viewProject:"Ansehen →",
     backAll:"← Alle Projekte",
     quickTech:"Technik →", quickShots:"Screenshots →",
@@ -705,7 +759,7 @@ const UI={
     lead:"Private projects from my free time - sometimes to solve a problem, sometimes to build a product: a mail assistant, a game, a company website. What connects them: my interest in using, applying, and pushing the limits of agentic AI.",
     projectsLabel:"The Projects",
     projectsIntro:"From document manager to browser game.",
-    projectsSub:"Six projects in chronological order - each with background, technical hard facts, and screenshots. Click to open the detail page.",
+    projectsSub:"Seven projects in chronological order - each with background, technical hard facts, and screenshots. Click to open the detail page.",
     aboutH2:'A varied career path that comes together in <em>agentic product development</em>.',
     aboutBody:[
       "My path started as a media designer, later as an instructional designer - always alongside testing, where I learned programming and JavaScript and pushed test automation forward. From there I moved increasingly into the technical side, toward quality engineering and further roles around software, quality, and product.",
@@ -713,7 +767,7 @@ const UI={
       "The appeal lies in building, experimenting, refining, and learning through real problem-solving."
     ],
     footerSub:"Agentic Projects - a selection of private projects.",
-    footerCount:n=>`${n} projects, as of July 2026`,
+    footerCount:n=>`${n} projects, as of August 2026`,
     viewProject:"View →",
     backAll:"← All Projects",
     quickTech:"Tech →", quickShots:"Screenshots →",

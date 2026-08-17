@@ -67,10 +67,10 @@ aktuellem `git log -1 --format=%h` vergleichen. Bei Gleichstand → nichts zu tu
 ## Showcase-Anzeigereihenfolge
 
 Projekte werden **chronologisch** angezeigt (frühestes zuerst): OOZCOD → Drachenspur → MAILO →
-Maschinenverleih → NetObs. Reihenfolge ist die Sortierung des `PROJECTS`-Arrays in
-`showcase/index.html`.
+Maschinenverleih → NetObs → MindLoop → FrameForge. Reihenfolge ist die Sortierung des
+`PROJECTS`-Arrays in `showcase/index.html`.
 
-## Erfasste Projekte (Stand 2026-07-05, nach MindLoop-Erfassung)
+## Erfasste Projekte (Stand 2026-08-17, nach FrameForge-Erfassung)
 
 | # | Slug | Name | Typ | Status | Zeitraum | Quelle-Stand | Screenshots |
 |---|---|---|---|---|---|---|---|
@@ -80,6 +80,32 @@ Maschinenverleih → NetObs. Reihenfolge ist die Sortierung des `PROJECTS`-Array
 | 04 | `maschinenverleih-skubatz` | Maschinenverleih Skubatz | web-app | active | 2026-06-01 → laufend | HEAD @ 2026-06-16 | ✅ 10 |
 | 05 | `net-obs` | NetObs | tool | active | 2026-06-23 → 2026-06-26 | kein Git | ✅ 6 |
 | 06 | `mind-loop` | MindLoop | web-app | active | 2026-07-04 → laufend | HEAD @ 2026-07-13 (0984eb0) | ✅ 10 |
+| 07 | `frame-forge` | FrameForge | tool | active | 2026-07-27 → 2026-08-10 | HEAD @ 2026-08-10 (8f2190a) | ✅ 5 |
+
+### FrameForge erfasst (17.08.2026)
+
+Siebtes Projekt: orchestrierte Videoschnitt-Pipeline (Python 3.12 + FFmpeg + 9 Claude-Code-
+Sub-Agenten, 11-Phasen-State-Machine, Gate-Hook). Repo erkundet (README, `docs/plans/0001-initial-
+structure.md`, `docs/process.md`, `.claude/agents/`, `docs/styles/style-catalog.md`), Git-Historie
+gelesen (erster Commit 2026-07-27, HEAD 2026-08-10, 240 Commits — **nicht** als Kennzahl gezeigt,
+siehe „Korrigierte Kennzahlen" unten), Testzahl per `grep -rE "^def test_"` ermittelt (540
+Funktionen über 30 Dateien). `projects/frame-forge.md` neu angelegt, als 7. Karte in
+`showcase/index.html` ergänzt (DE + EN, `PROJECTS_DE`/`PROJECTS_EN`), Projekt-/Footer-Zähler von
+sechs auf sieben Projekte aktualisiert (Stand-Monat auf August 2026 korrigiert).
+
+FrameForge hat selbst keine grafische Oberfläche (läuft über Claude Code + CLI) — als
+Impressionen dienen stattdessen fünf Screenshots des ersten tatsächlichen Produkts aus der
+Pipeline: die private Reise-Website „Norwegen 2026" (`frame-forge/web/sites/norwegen-2026/`,
+eine statische HTML-Seite ohne Build-Schritt). Screenshots wurden direkt per Playwright gegen
+einen lokalen `python -m http.server` auf den gemounteten `public/`-Ordner erzeugt (kein
+Sandbox-Klon nötig, da keine native Abhängigkeiten) — Startseite, Roadtrip-Edition- und
+Drone-Edition-Unterseite (Viewport 1440×900, `fullPage:false`), plus die beiden Video-Poster-
+Bilder direkt aus `assets/img/` übernommen. Die „kleine Grafik" für den Pipeline-Ablauf, die
+Christian sich gewünscht hat, brauchte keine eigene Bilddatei: `flowSteps` im Projekt-Objekt
+rendert automatisch als nummerierte Pfeilkette (bestehende `flowHtml()`-Logik, gilt für alle
+Projekte) — 8 Schritte von Ingest bis Render.
+
+### Korrigierte Kennzahlen (Feedback 16.06.2026)
 
 ### MindLoop erfasst + Screenshots automatisiert erzeugt (05.07.2026)
 

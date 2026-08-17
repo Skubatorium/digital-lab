@@ -42,5 +42,6 @@ mehr ausgeführt (Repo liegt seit längerem auf GitHub) - kann bei Gelegenheit e
 
 ## Erfasste Projekte
 
-MAILO · Maschinenverleih Skubatz · OOZCOD — Document Zoo · Drachenspur · NetObs · MindLoop.
-(Bewusst ausgelassen: n26-finance-dashboard, partypilot.)
+MAILO · Maschinenverleih Skubatz · OOZCOD — Document Zoo · Drachenspur · NetObs · MindLoop ·
+FrameForge.
+(Bewusst ausgelassen: n26-finance-dashboard, partypilot, skubus.)
