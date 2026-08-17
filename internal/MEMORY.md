@@ -105,6 +105,12 @@ Christian sich gewünscht hat, brauchte keine eigene Bilddatei: `flowSteps` im P
 rendert automatisch als nummerierte Pfeilkette (bestehende `flowHtml()`-Logik, gilt für alle
 Projekte) — 8 Schritte von Ingest bis Render.
 
+**Auf Christians Wunsch zusätzlich entfernt:** der komplette „Hintergrund"-Abschnitt (Laufbahn-Text
+„Eine vielfältige Laufbahn…") von der Übersichtsseite — HTML-Section `#about`, `aboutH2`/
+`aboutBody` in beiden `UI`-Objekten (DE/EN) und die zugehörigen Zeilen in `updateStaticText()`
+komplett gelöscht. Bewusst nicht Teil der ursprünglichen FrameForge-Anfrage, kam als Zwischen-
+Nachricht während dieser Sitzung.
+
 ### Korrigierte Kennzahlen (Feedback 16.06.2026)
 
 ### MindLoop erfasst + Screenshots automatisiert erzeugt (05.07.2026)

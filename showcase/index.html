@@ -295,21 +295,6 @@
     <div id="projects-list"></div>
   </div></section>
 
-  <section class="section" id="about"><div class="wrap about-grid reveal">
-    <h2 id="about-h2">Eine vielfältige Laufbahn, die in der <em>agentischen Produktlösung</em> aufgeht.</h2>
-    <div class="body" id="about-body">
-      <p>Mein Weg begann als Mediengestalter, später als Instructional Designer - immer begleitet
-         von Testing, dabei Programmierung und JavaScript gelernt und Testautomatisierung
-         vorangetrieben. Von dort aus ging es zunehmend in den technischen Bereich, Richtung
-         Quality Engineering und weitere Stationen rund um Software, Qualität und Produkt.</p>
-      <p>Aus dieser Kombination an Erfahrungen ist ein gutes Auge für Problemlösungen,
-         Produktentwicklung, Technik, Qualität, Usability und Gestaltung zusammengewachsen.
-         Agentisches Coding gibt mir jetzt die Möglichkeit, eigene Ideen und Produkte umzusetzen -
-         als Proof of Concept oder als wirklich im Alltag eingesetztes Produkt.</p>
-      <p>Der Reiz liegt im Bauen, Ausprobieren, Feilen und Lernen an echten Problemlösungen.</p>
-    </div>
-  </div></section>
-
   <footer id="footer"><div class="wrap foot">
     <div>
       <div class="fm">Christian Skubatz</div>
@@ -735,12 +720,6 @@ const UI={
     projectsLabel:"Die Projekte",
     projectsIntro:"Vom Dokumenten-Manager bis zum Browserspiel.",
     projectsSub:"Sieben Projekte in chronologischer Reihenfolge - jedes mit fachlichem Hintergrund, technischen Hard-Facts und Screenshots. Ein Klick öffnet die Detailseite.",
-    aboutH2:'Eine vielfältige Laufbahn, die in der <em>agentischen Produktlösung</em> aufgeht.',
-    aboutBody:[
-      "Mein Weg begann als Mediengestalter, später als Instructional Designer - immer begleitet von Testing, dabei Programmierung und JavaScript gelernt und Testautomatisierung vorangetrieben. Von dort aus ging es zunehmend in den technischen Bereich, Richtung Quality Engineering und weitere Stationen rund um Software, Qualität und Produkt.",
-      "Aus dieser Kombination an Erfahrungen ist ein gutes Auge für Problemlösungen, Produktentwicklung, Technik, Qualität, Usability und Gestaltung zusammengewachsen. Agentisches Coding gibt mir jetzt die Möglichkeit, eigene Ideen und Produkte umzusetzen - als Proof of Concept oder als wirklich im Alltag eingesetztes Produkt.",
-      "Der Reiz liegt im Bauen, Ausprobieren, Feilen und Lernen an echten Problemlösungen."
-    ],
     footerSub:"Agentic Projects - eine Auswahl privater Projekte.",
     footerCount:n=>`${n} Projekte, Stand August 2026`,
     viewProject:"Ansehen →",
@@ -760,12 +739,6 @@ const UI={
     projectsLabel:"The Projects",
     projectsIntro:"From document manager to browser game.",
     projectsSub:"Seven projects in chronological order - each with background, technical hard facts, and screenshots. Click to open the detail page.",
-    aboutH2:'A varied career path that comes together in <em>agentic product development</em>.',
-    aboutBody:[
-      "My path started as a media designer, later as an instructional designer - always alongside testing, where I learned programming and JavaScript and pushed test automation forward. From there I moved increasingly into the technical side, toward quality engineering and further roles around software, quality, and product.",
-      "Out of that combination of experience grew a good eye for problem-solving, product development, technology, quality, usability, and design. Agentic coding now gives me the ability to build my own ideas and products - whether as a proof of concept or as something genuinely used in everyday life.",
-      "The appeal lies in building, experimenting, refining, and learning through real problem-solving."
-    ],
     footerSub:"Agentic Projects - a selection of private projects.",
     footerCount:n=>`${n} projects, as of August 2026`,
     viewProject:"View →",
@@ -981,8 +954,6 @@ function updateStaticText(){
   document.getElementById('sec-label-projects').textContent=t.projectsLabel;
   document.getElementById('sec-intro-projects').textContent=t.projectsIntro;
   document.getElementById('sec-sub-projects').textContent=t.projectsSub;
-  document.getElementById('about-h2').innerHTML=t.aboutH2;
-  document.getElementById('about-body').innerHTML=t.aboutBody.map(p=>`<p>${p}</p>`).join('');
   document.getElementById('footer-sub').textContent=t.footerSub;
   document.querySelectorAll('.dback').forEach(el=>el.textContent=t.backAll);
   document.getElementById('dquick-tech').textContent=t.quickTech;
